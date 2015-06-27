@@ -1,0 +1,20 @@
+
+
+
+GET /models/
+GET /models/{id}
+
+GET /models/?filter={filter_id},{filter_id}
+
+GET /filter-groups/
+GET /filter-groups/{id}
+
+GET /filter-groups/{id}/filters/
+GET /filter-groups/{id}/filters/{id}
+
+
+
+Items
+
+FilterGroup
+Filter
