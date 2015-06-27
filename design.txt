@@ -1,10 +1,10 @@
 
 
 
-GET /models/
-GET /models/{id}
+GET /items/
+GET /items/{id}
 
-GET /models/?filter={filter_id},{filter_id}
+GET /items/?filter={filter_id},{filter_id}
 
 GET /filter-groups/
 GET /filter-groups/{id}

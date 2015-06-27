@@ -16,6 +16,7 @@
         <wildfly.version>8.2.0.Final</wildfly.version>
         <glassfish.version>4.1</glassfish.version>
         <jersey-client.version>2.18</jersey-client.version>
+        <surefire-plugin.version>2.18.1</surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +86,20 @@
                         <directory>src/test/resources-glassfish-embedded</directory>
                     </testResource>
                 </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${surefire-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <java.util.logging.config.file>
+                                    ${project.build.testOutputDirectory}/logging.properties
+                                </java.util.logging.config.file>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
@@ -147,7 +162,7 @@
                     </plugin>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.18.1</version>
+                        <version>${surefire-plugin.version}</version>
                         <configuration>
                             <environmentVariables>
                                 <JBOSS_HOME>${project.build.directory}/wildfly-${wildfly.version}</JBOSS_HOME>

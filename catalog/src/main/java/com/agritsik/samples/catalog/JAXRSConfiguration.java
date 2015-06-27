@@ -1,4 +1,4 @@
-package com.agritsik.samples.blog;
+package com.agritsik.samples.catalog;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
