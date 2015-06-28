@@ -26,7 +26,6 @@ public class ItemServiceTest extends TestCase {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackages(true, "com.agritsik")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource("jbossas-ds.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

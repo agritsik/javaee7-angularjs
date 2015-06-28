@@ -12,11 +12,12 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <javaee-api.version>7.0</javaee-api.version>
+
+        <!--integration testing-->
         <junit.version>4.12</junit.version>
-        <wildfly.version>8.2.0.Final</wildfly.version>
-        <glassfish.version>4.1</glassfish.version>
         <jersey-client.version>2.18</jersey-client.version>
-        <surefire-plugin.version>2.18.1</surefire-plugin.version>
+        <glassfish.version>4.1</glassfish.version>
+        <wildfly.version>8.2.0.Final</wildfly.version>
     </properties>
 
     <dependencyManagement>
@@ -51,14 +52,6 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-    </build>
-
     <profiles>
         <profile>
             <id>docker-dev</id>
@@ -66,6 +59,8 @@
 
         <profile>
             <id>arquillian-glassfish</id>
+            <properties>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
@@ -84,29 +79,15 @@
                 <testResources>
                     <testResource>
                         <directory>src/test/resources-glassfish-embedded</directory>
+                        <filtering>true</filtering>
                     </testResource>
                 </testResources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${surefire-plugin.version}</version>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <java.util.logging.config.file>
-                                    ${project.build.testOutputDirectory}/logging.properties
-                                </java.util.logging.config.file>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
 
         <profile>
             <id>arquillian-wildfly</id>
             <dependencies>
-
                 <dependency>
                     <groupId>org.wildfly</groupId>
                     <artifactId>wildfly-arquillian-container-managed</artifactId>
@@ -129,11 +110,6 @@
                 </dependency>
             </dependencies>
             <build>
-                <testResources>
-                    <testResource>
-                        <directory>src/test/resources-jbossas-managed</directory>
-                    </testResource>
-                </testResources>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -160,16 +136,13 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${surefire-plugin.version}</version>
-                        <configuration>
-                            <environmentVariables>
-                                <JBOSS_HOME>${project.build.directory}/wildfly-${wildfly.version}</JBOSS_HOME>
-                            </environmentVariables>
-                        </configuration>
-                    </plugin>
                 </plugins>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources-jbossas-managed</directory>
+                        <filtering>true</filtering>
+                    </testResource>
+                </testResources>
             </build>
         </profile>
     </profiles>
