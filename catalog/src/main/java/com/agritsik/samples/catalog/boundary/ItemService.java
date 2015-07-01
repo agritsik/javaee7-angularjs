@@ -5,6 +5,7 @@ import com.agritsik.samples.catalog.entity.Item;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by andrey on 6/27/15.
@@ -27,9 +28,13 @@ public class ItemService {
         return entityManager.merge(item);
     }
 
-    public void remove(int id){
+    public void delete(int id){
         Item item = entityManager.find(Item.class, id);
         entityManager.remove(item);
+    }
+
+    public List<Item> find(){
+        return entityManager.createNamedQuery("Item.findAll").getResultList();
     }
 
 }

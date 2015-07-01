@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by andrey on 6/27/15.
@@ -57,8 +58,13 @@ public class ItemServiceTest extends TestCase {
         assertEquals(newPrice, updatedItem.getPrice());
 
         // Delete
-        itemService.remove(updatedItem.getId());
+        itemService.delete(updatedItem.getId());
         assertNull(itemService.find(updatedItem.getId()));
+
+        // Read all
+        List<Item> items = itemService.find();
+        System.out.println(items);
+        assertEquals(0, items.size());
 
 
     }

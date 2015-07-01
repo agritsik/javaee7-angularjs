@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "items")
+@NamedQuery(name = "Item.findAll", query = "select i from Item i")
 public class Item {
 
     @Id
