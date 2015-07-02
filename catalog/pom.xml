@@ -56,6 +56,9 @@
     <profiles>
         <profile>
             <id>docker-dev</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
         </profile>
 
         <profile>
