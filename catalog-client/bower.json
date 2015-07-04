@@ -1,0 +1,22 @@
+{
+  "name": "catalog-client",
+  "version": "0.0.0",
+  "homepage": "https://github.com/agritsik/javaee7-angularjs",
+  "authors": [
+    "andrey <a.gritsik@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.1",
+    "angular-resource": "~1.4.1",
+    "angular-route": "~1.4.1",
+    "bootstrap": "~3.3.5"
+  }
+}

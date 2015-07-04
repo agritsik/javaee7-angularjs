@@ -32,10 +32,6 @@ controllers.controller('EditCtrl', ['$scope', 'Item', '$routeParams', '$location
         $scope.item = Item.get({id: $routeParams.id})
 
         $scope.submit = function () {
-            //Item.update({id:id}, item).$promise.then(function () {
-            //        $location.path("/items");
-            //    });
-
             $scope.item.$update().then(function () {
                 $location.path("/items");
             });
