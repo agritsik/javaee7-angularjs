@@ -11,4 +11,4 @@ RUN curl http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-c
 COPY domain.xml glassfish/domains/domain1/config/domain.xml
 COPY admin-keyfile glassfish/domains/domain1/config/admin-keyfile
 
-COPY app.war glassfish/domains/domain1/autodeploy/app.war
+COPY target/app.war glassfish/domains/domain1/autodeploy/app.war
