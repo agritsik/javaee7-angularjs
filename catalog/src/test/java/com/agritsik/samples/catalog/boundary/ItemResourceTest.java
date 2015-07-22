@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 /**
  * Created by andrey on 7/1/15.
  */
+
+//@Ignore
 @RunWith(Arquillian.class)
 public class ItemResourceTest extends TestCase {
     public static final Logger LOGGER = Logger.getLogger(ItemResourceTest.class.getName());

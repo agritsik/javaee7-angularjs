@@ -1,26 +1,22 @@
 package com.agritsik.samples.catalog.entity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 /**
- * Created by andrey on 6/27/15.
+ * Created by andrey on 7/21/15.
  */
-
 @Entity
-@Table(name = "items")
-@NamedQuery(name = Item.FIND_ALL, query = "select i from Item i")
-public class Item {
+@Table(name = "filter_groups")
+@NamedQuery(name = FilterGroup.FIND_ALL, query = "SELECT fg FROM FilterGroup fg")
+public class FilterGroup {
 
-    public static final String FIND_ALL = "Item.findAll";
+    public static final String FIND_ALL = "FilterGroup.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
-
-    private BigDecimal price;
 
     public int getId() {
         return id;
@@ -38,20 +34,11 @@ public class Item {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
-        return "Item{" +
+        return "FilterGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
                 '}';
     }
 }

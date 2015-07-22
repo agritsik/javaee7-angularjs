@@ -2,6 +2,7 @@ package com.agritsik.samples.catalog.boundary;
 
 import com.agritsik.samples.catalog.entity.Item;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,7 +12,8 @@ import java.util.List;
  * Created by andrey on 6/27/15.
  */
 @Stateless
-public class ItemService {
+@LocalBean
+public class ItemService implements EntityService<Item> {
 
     @PersistenceContext
     EntityManager entityManager;
