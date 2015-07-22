@@ -131,5 +131,18 @@ public class ServiceTest extends TestCase {
         List<Filter> filters = filterService.find(filterGroup.getId());
         assertEquals(1, filters.size());
 
+        // update filter
+        Filter savedFilter = filterService.find(filter.getId(), filter.getFilterGroup().getId());
+        System.out.println(filter);
+
+        savedFilter.setName("Nokia 2");
+        Filter updatedFilter = filterService.update(filter);
+        System.out.println(updatedFilter);
+        assertEquals(filterGroup.getId(), updatedFilter.getFilterGroup().getId());
+
+        // delete
+        filterService.delete(updatedFilter.getId());
+        assertEquals(0, filterService.find(updatedFilter.getId()).size());
+
     }
 }

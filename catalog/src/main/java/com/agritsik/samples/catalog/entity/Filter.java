@@ -55,6 +55,7 @@ public class Filter {
     public String toString() {
         return "Filter{" +
                 "id=" + id +
+                ", filterGroup=" + filterGroup +
                 ", name='" + name + '\'' +
                 '}';
     }
