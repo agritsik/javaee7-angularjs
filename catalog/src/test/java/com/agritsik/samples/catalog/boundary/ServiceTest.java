@@ -1,7 +1,7 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Filter;
-import com.agritsik.samples.catalog.entity.FilterGroup;
+import com.agritsik.samples.catalog.entity.Property;
+import com.agritsik.samples.catalog.entity.Category;
 import com.agritsik.samples.catalog.entity.Item;
 import junit.framework.TestCase;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -36,10 +36,10 @@ public class ServiceTest extends TestCase {
     ItemService itemService;
 
     @EJB
-    FilterGroupService filterGroupService;
+    CategoryService categoryService;
 
     @EJB
-    FilterService filterService;
+    PropertyService propertyService;
 
     @Test
     @InSequence(1)
@@ -81,68 +81,68 @@ public class ServiceTest extends TestCase {
     public void testFilterGroupCRUD() throws Exception {
 
         // Create
-        FilterGroup filterGroup = new FilterGroup();
-        filterGroup.setName("Type");
+        Category category = new Category();
+        category.setName("Type");
 
-        filterGroupService.create(filterGroup);
-        assertNotNull(filterGroup.getId());
+        categoryService.create(category);
+        assertNotNull(category.getId());
 
         // Read
-        FilterGroup savedFilterGroup = filterGroupService.find(filterGroup.getId());
-        System.out.println(savedFilterGroup);
-        assertNotNull(savedFilterGroup);
+        Category savedCategory = categoryService.find(category.getId());
+        System.out.println(savedCategory);
+        assertNotNull(savedCategory);
 
         // Read all
-        List<FilterGroup> filterGroups = filterGroupService.find();
-        System.out.println(filterGroups);
-        assertEquals(1, filterGroups.size());
+        List<Category> categories = categoryService.find();
+        System.out.println(categories);
+        assertEquals(1, categories.size());
 
         // Update
         String editedName = "Edited Type";
-        filterGroup.setName(editedName);
-        FilterGroup updatedfilterGroup = filterGroupService.update(filterGroup);
+        category.setName(editedName);
+        Category updatedfilterGroup = categoryService.update(category);
         System.out.println(updatedfilterGroup);
         assertEquals(editedName, updatedfilterGroup.getName());
 
         // Delete
-        filterGroupService.delete(updatedfilterGroup.getId());
-        assertNull(filterGroupService.find(updatedfilterGroup.getId()));
+        categoryService.delete(updatedfilterGroup.getId());
+        assertNull(categoryService.find(updatedfilterGroup.getId()));
 
 
     }
 
     @Test
     @InSequence(3)
-    public void testFilterCRUD() throws Exception {
+    public void testPropertyCRUD() throws Exception {
 
         // create filter group
-        FilterGroup filterGroup = new FilterGroup();
-        filterGroup.setName("brand");
-        filterGroupService.create(filterGroup);
+        Category category = new Category();
+        category.setName("brand");
+        categoryService.create(category);
 
         // create filter
-        Filter filter = new Filter();
-        filter.setName("Nokia");
+        Property property = new Property();
+        property.setName("Nokia");
 
-        filterService.create(filter, filterGroup.getId());
-        assertNotNull(filter.getId());
+        propertyService.create(property, category.getId());
+        assertNotNull(property.getId());
 
         // find filters by group
-        List<Filter> filters = filterService.find(filterGroup.getId());
-        assertEquals(1, filters.size());
+        List<Property> properties = propertyService.find(category.getId());
+        assertEquals(1, properties.size());
 
         // update filter
-        Filter savedFilter = filterService.find(filter.getId(), filter.getFilterGroup().getId());
-        System.out.println(filter);
+        Property savedProperty = propertyService.find(property.getId(), property.getCategory().getId());
+        System.out.println(property);
 
-        savedFilter.setName("Nokia 2");
-        Filter updatedFilter = filterService.update(filter);
-        System.out.println(updatedFilter);
-        assertEquals(filterGroup.getId(), updatedFilter.getFilterGroup().getId());
+        savedProperty.setName("Nokia 2");
+        Property updatedProperty = propertyService.update(property);
+        System.out.println(updatedProperty);
+        assertEquals(category.getId(), updatedProperty.getCategory().getId());
 
         // delete
-        filterService.delete(updatedFilter.getId());
-        assertEquals(0, filterService.find(updatedFilter.getId()).size());
+        propertyService.delete(updatedProperty.getId());
+        assertEquals(0, propertyService.find(updatedProperty.getId()).size());
 
     }
 }

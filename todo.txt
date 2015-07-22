@@ -4,15 +4,13 @@
 GET /items/
 GET /items/{id}
 
-GET /items/?filter={filter_id},{filter_id}
+GET /items/?property={property_id},{property_id}
 
-GET /filter-groups/
-GET /filter-groups/{id}
+GET /categories/
+GET /categories/{id}
 
-GET /filter-groups/{id}/filters/
-GET /filter-groups/{id}/filters/{id}
-
-
+GET /categories/{id}/properties/
+GET /categories/{id}/properties/{id}
 
 Items
 

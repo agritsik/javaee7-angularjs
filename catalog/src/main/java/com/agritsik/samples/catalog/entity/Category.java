@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by andrey on 7/21/15.
  */
 @Entity
-@Table(name = "filter_groups")
-@NamedQuery(name = FilterGroup.FIND_ALL, query = "SELECT fg FROM FilterGroup fg")
-public class FilterGroup {
+@Table(name = "categories")
+@NamedQuery(name = Category.FIND_ALL, query = "SELECT c FROM Category c")
+public class Category {
 
-    public static final String FIND_ALL = "FilterGroup.findAll";
+    public static final String FIND_ALL = "Category.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,7 +36,7 @@ public class FilterGroup {
 
     @Override
     public String toString() {
-        return "FilterGroup{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
