@@ -1,8 +1,8 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Property;
 import com.agritsik.samples.catalog.entity.Category;
 import com.agritsik.samples.catalog.entity.Item;
+import com.agritsik.samples.catalog.entity.Property;
 import junit.framework.TestCase;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -145,4 +145,35 @@ public class ServiceTest extends TestCase {
         assertEquals(0, propertyService.find(updatedProperty.getId()).size());
 
     }
+
+    @Test
+    @InSequence(4)
+    public void testManyToMany() throws Exception {
+
+        // create category
+        Category category = new Category("RAM");
+        categoryService.create(category);
+
+        // create properties
+        Property property1 = new Property("2Gb");
+        Property property2 = new Property("4Gb");
+        Property property3 = new Property("8Gb");
+        Property property4 = new Property("16Gb");
+        propertyService.create(property1, category.getId());
+        propertyService.create(property2, category.getId());
+        propertyService.create(property3, category.getId());
+
+        // create item
+        Item item = new Item("Apple iPhone 5");
+        item.getPropertyList().add(property2);
+        item.getPropertyList().add(property3);
+        itemService.create(item);
+
+        // check created item with properties
+        Item itemWithProperties = itemService.findWithProperties(item.getId());
+        System.out.println(itemWithProperties);
+        assertEquals(2, item.getPropertyList().size());
+
+    }
+
 }

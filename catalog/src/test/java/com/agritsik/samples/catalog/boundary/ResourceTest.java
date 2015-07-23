@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 
 //@Ignore
 @RunWith(Arquillian.class)
-public class ItemResourceTest extends TestCase {
-    public static final Logger LOGGER = Logger.getLogger(ItemResourceTest.class.getName());
+public class ResourceTest extends TestCase {
+    public static final Logger LOGGER = Logger.getLogger(ResourceTest.class.getName());
 
     private Client client;
     private WebTarget target;

@@ -2,6 +2,8 @@ package com.agritsik.samples.catalog.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by andrey on 6/27/15.
@@ -21,6 +23,16 @@ public class Item {
     private String name;
 
     private BigDecimal price;
+
+    public Item() {
+    }
+
+    public Item(String name) {
+        this.name = name;
+    }
+
+    @ManyToMany
+    private List<Property> propertyList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -44,6 +56,14 @@ public class Item {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public List<Property> getPropertyList() {
+        return propertyList;
+    }
+
+    public void setPropertyList(List<Property> propertyList) {
+        this.propertyList = propertyList;
     }
 
     @Override
