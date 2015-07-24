@@ -32,6 +32,10 @@ public class ItemService implements EntityService<Item> {
         return item;
     }
 
+    public List<Item> find(){
+        return entityManager.createNamedQuery("Item.findAll").getResultList();
+    }
+
     public Item update(Item item){
         return entityManager.merge(item);
     }
@@ -39,10 +43,6 @@ public class ItemService implements EntityService<Item> {
     public void delete(int id){
         Item item = entityManager.find(Item.class, id);
         entityManager.remove(item);
-    }
-
-    public List<Item> find(){
-        return entityManager.createNamedQuery("Item.findAll").getResultList();
     }
 
 }

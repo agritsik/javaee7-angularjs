@@ -1,14 +1,26 @@
+How to organize many to many REST???
+1. REST create many to many
+2. REST fetch many to many
+3. REST delete many to many
 
 
 
+// items CRUD
 GET /items/
 GET /items/{id}
 
+// ManyToMany
+GET /items/{id}/properties/
+GET /items/{id}/properties/{id}
+
+// Search
 GET /items/?property={property_id},{property_id}
 
+// CRUD
 GET /categories/
 GET /categories/{id}
 
+// CRUD
 GET /categories/{id}/properties/
 GET /categories/{id}/properties/{id}
 

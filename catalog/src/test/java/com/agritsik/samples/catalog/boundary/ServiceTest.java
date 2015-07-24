@@ -41,6 +41,9 @@ public class ServiceTest extends TestCase {
     @EJB
     PropertyService propertyService;
 
+    @EJB
+    ConfigurationService configurationService;
+
     @Test
     @InSequence(1)
     public void testItemCRUD() throws Exception {
@@ -146,6 +149,7 @@ public class ServiceTest extends TestCase {
 
     }
 
+    @Deprecated
     @Test
     @InSequence(4)
     public void testManyToMany() throws Exception {
@@ -162,6 +166,7 @@ public class ServiceTest extends TestCase {
         propertyService.create(property1, category.getId());
         propertyService.create(property2, category.getId());
         propertyService.create(property3, category.getId());
+        propertyService.create(property4, category.getId());
 
         // create item
         Item item = new Item("Apple iPhone 5");
@@ -169,11 +174,43 @@ public class ServiceTest extends TestCase {
         item.getPropertyList().add(property3);
         itemService.create(item);
 
-        // check created item with properties
+        // check relationship
         Item itemWithProperties = itemService.findWithProperties(item.getId());
         System.out.println(itemWithProperties);
-        assertEquals(2, item.getPropertyList().size());
+        assertEquals(2, itemWithProperties.getPropertyList().size());
 
     }
 
+
+    @Test
+    @InSequence(5)
+    public void testManyToManyRESTApproach() throws Exception {
+        // create category
+        Category category = new Category("HDD");
+        categoryService.create(category);
+
+        // create properties
+        Property property1 = new Property("8GB");
+        Property property2 = new Property("16GB");
+        Property property3 = new Property("64GB");
+        propertyService.create(property1, category.getId());
+        propertyService.create(property2, category.getId());
+        propertyService.create(property3, category.getId());
+
+        // create item
+        Item item = new Item("Apple iPhone 4");
+        itemService.create(item);
+
+        // create relationship
+        configurationService.create(item.getId(), property1.getId());
+        configurationService.create(item.getId(), property2.getId());
+
+        Item itemWithProperties = itemService.findWithProperties(item.getId());
+        assertEquals(2, itemWithProperties.getPropertyList().size());
+
+        // delete relationship
+        configurationService.delete(item.getId(), property2.getId());
+        Item itemWithProperties1 = itemService.findWithProperties(item.getId());
+        assertEquals(1, itemWithProperties1.getPropertyList().size());
+    }
 }
