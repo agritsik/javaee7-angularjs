@@ -49,10 +49,8 @@ public class ServiceTest extends TestCase {
     public void testItemCRUD() throws Exception {
 
         // Create
-        Item item = new Item();
-        item.setName("Samsung Galaxy S6");
+        Item item = new Item("Samsung Galaxy S6");
         item.setPrice(BigDecimal.valueOf(199.99));
-
         itemService.create(item);
         assertNotNull(item.getId());
 
@@ -84,9 +82,7 @@ public class ServiceTest extends TestCase {
     public void testFilterGroupCRUD() throws Exception {
 
         // Create
-        Category category = new Category();
-        category.setName("Type");
-
+        Category category = new Category("Type");
         categoryService.create(category);
         assertNotNull(category.getId());
 
@@ -118,32 +114,32 @@ public class ServiceTest extends TestCase {
     @InSequence(3)
     public void testPropertyCRUD() throws Exception {
 
-        // create filter group
+        // Create Parent
         Category category = new Category();
         category.setName("brand");
         categoryService.create(category);
 
-        // create filter
-        Property property = new Property();
-        property.setName("Nokia");
-
+        // Create
+        Property property = new Property("Nokia");
         propertyService.create(property, category.getId());
         assertNotNull(property.getId());
 
-        // find filters by group
+        // Read
+        Property createdProperty = propertyService.find(property.getId(), category.getId());
+        System.out.println(createdProperty);
+        assertNotNull(createdProperty);
+
+        // Read all
         List<Property> properties = propertyService.find(category.getId());
         assertEquals(1, properties.size());
 
-        // update filter
+        // Update
         Property savedProperty = propertyService.find(property.getId(), property.getCategory().getId());
-        System.out.println(property);
-
         savedProperty.setName("Nokia 2");
         Property updatedProperty = propertyService.update(property);
-        System.out.println(updatedProperty);
         assertEquals(category.getId(), updatedProperty.getCategory().getId());
 
-        // delete
+        // Delete
         propertyService.delete(updatedProperty.getId());
         assertEquals(0, propertyService.find(updatedProperty.getId()).size());
 

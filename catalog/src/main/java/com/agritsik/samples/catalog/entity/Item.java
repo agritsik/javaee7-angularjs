@@ -1,6 +1,10 @@
 package com.agritsik.samples.catalog.entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +13,8 @@ import java.util.List;
  * Created by andrey on 6/27/15.
  */
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "items")
 @NamedQuery(name = Item.FIND_ALL, query = "select i from Item i")
@@ -31,6 +37,7 @@ public class Item {
         this.name = name;
     }
 
+    @XmlTransient
     @ManyToMany
     private List<Property> propertyList = new ArrayList<>();
 

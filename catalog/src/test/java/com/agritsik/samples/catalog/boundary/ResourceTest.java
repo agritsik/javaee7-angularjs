@@ -2,6 +2,7 @@ package com.agritsik.samples.catalog.boundary;
 
 import com.agritsik.samples.catalog.entity.Category;
 import com.agritsik.samples.catalog.entity.Item;
+import com.agritsik.samples.catalog.entity.Property;
 import junit.framework.TestCase;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
@@ -92,8 +94,6 @@ public class ResourceTest extends TestCase {
         Response deleteResponse = this.client.target(postResponse.getLocation())
                 .request(MediaType.APPLICATION_JSON).delete();
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
-
-
     }
 
     @InSequence(2)
@@ -126,8 +126,45 @@ public class ResourceTest extends TestCase {
         Response deleteResponse = this.client.target(postResponse.getLocation())
                 .request(MediaType.APPLICATION_JSON).delete();
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
+    }
 
 
+    @InSequence(3)
+    @Test
+    public void testPropertyREST() throws Exception {
+
+        // Create Parent
+        Category category = new Category("HDD");
+        Response parentPostResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        URI parentLocation = parentPostResponse.getLocation();
+
+
+        // Create
+        Property property = new Property("100Gb");
+        Response postResponse = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property));
+        assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
+        assertNotNull(postResponse.getLocation());
+
+        // Read
+        Property createdProperty = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).get(Property.class);
+        assertEquals(property.getName(), createdProperty.getName());
+
+        // Read all
+        List<Property> properties = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
+        });
+        assertEquals(1, properties.size());
+
+        // Update
+        createdProperty.setName("100Gb Edited");
+        Response putResponse = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdProperty));
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
+
+        // Delete
+        Response deleteResponse = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).delete();
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
     }
 
 
