@@ -37,6 +37,11 @@ public class ItemResource {
         return itemService.find(id);
     }
 
+    @GET
+    public List<Item> find(){
+        return itemService.find();
+    }
+
     @PUT
     @Path("{id}")
     public Response update(@PathParam("id") int id, Item item){
@@ -49,10 +54,5 @@ public class ItemResource {
     public Response delete(@PathParam("id") int id){
         itemService.delete(id);
         return Response.noContent().build();
-    }
-
-    @GET
-    public List<Item> find(){
-        return itemService.find();
     }
 }

@@ -1,5 +1,6 @@
 package com.agritsik.samples.catalog.boundary;
 
+import com.agritsik.samples.catalog.entity.Category;
 import com.agritsik.samples.catalog.entity.Item;
 import junit.framework.TestCase;
 import org.glassfish.jersey.filter.LoggingFilter;
@@ -37,7 +38,8 @@ public class ResourceTest extends TestCase {
     public static final Logger LOGGER = Logger.getLogger(ResourceTest.class.getName());
 
     private Client client;
-    private WebTarget target;
+    private WebTarget targetItems;
+    private WebTarget targetCategories;
 
     @Deployment(testable = false)
     public static Archive<?> createDeployment() {
@@ -54,20 +56,19 @@ public class ResourceTest extends TestCase {
     public void setUp() throws Exception {
         this.client = ClientBuilder.newClient();
         this.client.register(new LoggingFilter(LOGGER, true));
-        this.target = this.client.target(new URL(url, "resources/items").toExternalForm());
+
+        this.targetItems = this.client.target(new URL(url, "resources/items").toExternalForm());
+        this.targetCategories = this.client.target(new URL(url, "resources/categories").toExternalForm());
     }
 
     @InSequence(1)
     @Test
-    public void testREST() throws Exception {
+    public void testItemREST() throws Exception {
 
         // Create
-        Item item = new Item();
-        item.setName("Samsung Galaxy S6");
+        Item item = new Item("Samsung Galaxy S6");
         item.setPrice(BigDecimal.valueOf(199.99));
-
-        Response postResponse = this.target.request(MediaType.APPLICATION_JSON).post(Entity.json(item));
-
+        Response postResponse = this.targetItems.request(MediaType.APPLICATION_JSON).post(Entity.json(item));
         assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
         assertNotNull(postResponse.getLocation());
 
@@ -75,6 +76,11 @@ public class ResourceTest extends TestCase {
         Item createdItem = this.client.target(postResponse.getLocation())
                 .request(MediaType.APPLICATION_JSON).get(Item.class);
         assertEquals(item.getName(), createdItem.getName());
+
+        // Read all
+        List<Item> items = this.targetItems.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Item>>() {
+        });
+        assertEquals(1, items.size());
 
         // Update
         createdItem.setPrice(BigDecimal.valueOf(299.99));
@@ -87,9 +93,40 @@ public class ResourceTest extends TestCase {
                 .request(MediaType.APPLICATION_JSON).delete();
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
 
+
+    }
+
+    @InSequence(2)
+    @Test
+    public void testCategoryREST() throws Exception {
+
+        // Create
+        Category category = new Category("RAM");
+        Response postResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
+        assertNotNull(postResponse.getLocation());
+
+        // Read
+        Category createdCategory = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).get(Category.class);
+        assertEquals(category.getName(), createdCategory.getName());
+
         // Read all
-        List<Item> items = this.target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Item>>() {});
-        assertEquals(0, items.size());
+        List<Category> categories = this.targetCategories.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Category>>() {
+        });
+        assertEquals(1, categories.size());
+
+        // Update
+        createdCategory.setName("RAM Edited");
+        Response putResponse = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdCategory));
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
+
+        // Delete
+        Response deleteResponse = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).delete();
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
+
 
     }
 
