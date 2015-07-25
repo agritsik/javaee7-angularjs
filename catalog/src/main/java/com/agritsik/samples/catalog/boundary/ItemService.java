@@ -28,7 +28,7 @@ public class ItemService implements EntityService<Item> {
 
     public Item findWithProperties(int id){
         Item item = entityManager.find(Item.class, id);
-        item.getPropertyList().size(); // resolves n+1 problem
+//        item.getPropertyList().size(); // resolves n+1 problem
         return item;
     }
 

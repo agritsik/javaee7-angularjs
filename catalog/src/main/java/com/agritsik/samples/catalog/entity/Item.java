@@ -13,8 +13,6 @@ import java.util.List;
  * Created by andrey on 6/27/15.
  */
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "items")
 @NamedQuery(name = Item.FIND_ALL, query = "select i from Item i")
@@ -36,10 +34,6 @@ public class Item {
     public Item(String name) {
         this.name = name;
     }
-
-    @XmlTransient
-    @ManyToMany
-    private List<Property> propertyList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -63,14 +57,6 @@ public class Item {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public List<Property> getPropertyList() {
-        return propertyList;
-    }
-
-    public void setPropertyList(List<Property> propertyList) {
-        this.propertyList = propertyList;
     }
 
     @Override

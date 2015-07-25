@@ -1,6 +1,7 @@
 package com.agritsik.samples.catalog.boundary;
 
 import com.agritsik.samples.catalog.entity.Category;
+import com.agritsik.samples.catalog.entity.Configuration;
 import com.agritsik.samples.catalog.entity.Item;
 import com.agritsik.samples.catalog.entity.Property;
 import junit.framework.TestCase;
@@ -79,7 +80,7 @@ public class ServiceTest extends TestCase {
 
     @Test
     @InSequence(2)
-    public void testFilterGroupCRUD() throws Exception {
+    public void testCategoryCRUD() throws Exception {
 
         // Create
         Category category = new Category("Type");
@@ -145,11 +146,10 @@ public class ServiceTest extends TestCase {
 
     }
 
-    @Deprecated
+
     @Test
     @InSequence(4)
-    public void testManyToMany() throws Exception {
-
+    public void testConfigurationCRUD() throws Exception {
         // create category
         Category category = new Category("RAM");
         categoryService.create(category);
@@ -166,47 +166,27 @@ public class ServiceTest extends TestCase {
 
         // create item
         Item item = new Item("Apple iPhone 5");
-        item.getPropertyList().add(property2);
-        item.getPropertyList().add(property3);
         itemService.create(item);
 
-        // check relationship
-        Item itemWithProperties = itemService.findWithProperties(item.getId());
-        System.out.println(itemWithProperties);
-        assertEquals(2, itemWithProperties.getPropertyList().size());
+        property1.setCategory(null);
+        propertyService.update(property1);
+
+
+        Configuration configuration1 = new Configuration(item, property1);
+        configurationService.create(configuration1);
+        Configuration configuration2 = new Configuration(item, property2);
+        configurationService.create(configuration2);
+
+        List<Configuration> items1 = configurationService.findByItemId(item.getId());
+        System.out.println(items1);
+        assertEquals(2, items1.size());
+
+        configurationService.delete(configuration2.getId());
+
+        List<Configuration> items2 = configurationService.findByItemId(item.getId());
+        assertEquals(1, items2.size());
+
 
     }
 
-
-    @Test
-    @InSequence(5)
-    public void testManyToManyRESTApproach() throws Exception {
-        // create category
-        Category category = new Category("HDD");
-        categoryService.create(category);
-
-        // create properties
-        Property property1 = new Property("8GB");
-        Property property2 = new Property("16GB");
-        Property property3 = new Property("64GB");
-        propertyService.create(property1, category.getId());
-        propertyService.create(property2, category.getId());
-        propertyService.create(property3, category.getId());
-
-        // create item
-        Item item = new Item("Apple iPhone 4");
-        itemService.create(item);
-
-        // create relationship
-        configurationService.create(item.getId(), property1.getId());
-        configurationService.create(item.getId(), property2.getId());
-
-        Item itemWithProperties = itemService.findWithProperties(item.getId());
-        assertEquals(2, itemWithProperties.getPropertyList().size());
-
-        // delete relationship
-        configurationService.delete(item.getId(), property2.getId());
-        Item itemWithProperties1 = itemService.findWithProperties(item.getId());
-        assertEquals(1, itemWithProperties1.getPropertyList().size());
-    }
 }

@@ -1,11 +1,11 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Item;
-import com.agritsik.samples.catalog.entity.Property;
+import com.agritsik.samples.catalog.entity.Configuration;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by andrey on 7/24/15.
@@ -18,22 +18,16 @@ public class ConfigurationService {
     EntityManager entityManager;
 
 
-    public void create(int itemId, int propertyId){
-
-        Item item = entityManager.find(Item.class, itemId);
-        Property property = entityManager.find(Property.class, propertyId);
-
-        item.getPropertyList().add(property);
-        entityManager.persist(item);
-
+    public void create(Configuration configuration){
+        entityManager.persist(configuration);
     }
 
-    public void delete(int itemId, int propertyId){
+    public List<Configuration> findByItemId(int itemId){
+        return entityManager.createNamedQuery(Configuration.FIND_BY_ITEM_ID).setParameter("itemId", itemId).getResultList();
+    }
 
-        Item item = entityManager.find(Item.class, itemId);
-        Property property = entityManager.find(Property.class, propertyId);
-
-        item.getPropertyList().remove(property);
-
+    public void delete(int id){
+        Configuration configuration = entityManager.find(Configuration.class, id);
+        entityManager.remove(configuration);
     }
 }

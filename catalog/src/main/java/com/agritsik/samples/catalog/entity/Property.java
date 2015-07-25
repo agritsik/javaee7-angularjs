@@ -1,12 +1,15 @@
 package com.agritsik.samples.catalog.entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
  * Created by andrey on 7/21/15.
  */
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "properties")
 @NamedQueries({
@@ -22,6 +25,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @XmlTransient
     @ManyToOne
     Category category;
 

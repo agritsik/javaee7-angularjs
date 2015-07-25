@@ -1,6 +1,7 @@
 package com.agritsik.samples.catalog.boundary;
 
 import com.agritsik.samples.catalog.entity.Category;
+import com.agritsik.samples.catalog.entity.Configuration;
 import com.agritsik.samples.catalog.entity.Item;
 import com.agritsik.samples.catalog.entity.Property;
 import junit.framework.TestCase;
@@ -17,10 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,6 +40,7 @@ public class ResourceTest extends TestCase {
     private Client client;
     private WebTarget targetItems;
     private WebTarget targetCategories;
+    private WebTarget targetConfiguration;
 
     @Deployment(testable = false)
     public static Archive<?> createDeployment() {
@@ -61,6 +60,7 @@ public class ResourceTest extends TestCase {
 
         this.targetItems = this.client.target(new URL(url, "resources/items").toExternalForm());
         this.targetCategories = this.client.target(new URL(url, "resources/categories").toExternalForm());
+        this.targetConfiguration = this.client.target(new URL(url, "resources/configuration").toExternalForm());
     }
 
     @InSequence(1)
@@ -168,4 +168,52 @@ public class ResourceTest extends TestCase {
     }
 
 
+//    @Ignore
+    @Test
+    @InSequence(4)
+    public void testConfigurationREST() throws Exception {
+
+        // Create Category
+        Category category = new Category("HDD");
+        Response parentPostResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        URI parentLocation = parentPostResponse.getLocation();
+
+        // Create Properties
+        Property property1 = new Property("100Gb");
+        Property property2 = new Property("300Gb");
+        Property property3 = new Property("500Gb");
+        Response postResponse1 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property1));
+        Response postResponse2 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property2));
+        Response postResponse3 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property3));
+        Property p1 = this.client.target(postResponse1.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
+        Property p2 = this.client.target(postResponse2.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
+        Property p3 = this.client.target(postResponse3.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
+
+        // Create Item
+        Item item = new Item("Samsung Galaxy S6");
+        Response postResponse = this.targetItems.request(MediaType.APPLICATION_JSON).post(Entity.json(item));
+        Item createdItem = this.client.target(postResponse.getLocation()).request(MediaType.APPLICATION_JSON).get(Item.class);
+
+        // Create relation
+        Configuration configuration = new Configuration();
+        configuration.setItem(createdItem);
+        configuration.setProperty(p1);
+
+
+        Response response = targetConfiguration.request(MediaType.APPLICATION_JSON).post(Entity.json(configuration));
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+        assertNotNull(response.getLocation());
+
+        // Read
+//        Configuration createdConfiguration = this.client.target(response.getLocation()).request(MediaType.APPLICATION_JSON).get(Configuration.class);
+//        System.out.println(createdConfiguration);
+
+        List<Configuration> list = targetConfiguration.queryParam("item_id", createdItem.getId())
+                .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Configuration>>() {
+        });
+
+        System.out.println(list);
+
+
+    }
 }
