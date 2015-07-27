@@ -168,7 +168,6 @@ public class ResourceTest extends TestCase {
     }
 
 
-//    @Ignore
     @Test
     @InSequence(4)
     public void testConfigurationREST() throws Exception {
@@ -199,20 +198,17 @@ public class ResourceTest extends TestCase {
         configuration.setItem(createdItem);
         configuration.setProperty(p1);
 
-
         Response response = targetConfiguration.request(MediaType.APPLICATION_JSON).post(Entity.json(configuration));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         assertNotNull(response.getLocation());
 
-        // Read
-//        Configuration createdConfiguration = this.client.target(response.getLocation()).request(MediaType.APPLICATION_JSON).get(Configuration.class);
-//        System.out.println(createdConfiguration);
-
+        // Read relationship
         List<Configuration> list = targetConfiguration.queryParam("item_id", createdItem.getId())
                 .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Configuration>>() {
         });
 
         System.out.println(list);
+        assertEquals(1, list.size());
 
 
     }

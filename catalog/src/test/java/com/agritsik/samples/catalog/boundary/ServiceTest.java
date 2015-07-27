@@ -45,6 +45,10 @@ public class ServiceTest extends TestCase {
     @EJB
     ConfigurationService configurationService;
 
+
+
+
+
     @Test
     @InSequence(1)
     public void testItemCRUD() throws Exception {
@@ -56,9 +60,9 @@ public class ServiceTest extends TestCase {
         assertNotNull(item.getId());
 
         // Read
-        Item savedItem = itemService.find(item.getId());
-        System.out.println(savedItem);
-        assertNotNull(savedItem);
+        Item createdItem = itemService.find(item.getId());
+        System.out.println(createdItem);
+        assertNotNull(createdItem);
 
         // Read all
         List<Item> items = itemService.find();
@@ -67,8 +71,8 @@ public class ServiceTest extends TestCase {
 
         // Update
         BigDecimal newPrice = BigDecimal.valueOf(299.99);
-        savedItem.setPrice(newPrice);
-        Item updatedItem = itemService.update(savedItem);
+        createdItem.setPrice(newPrice);
+        Item updatedItem = itemService.update(createdItem);
         System.out.println(updatedItem);
         assertEquals(newPrice, updatedItem.getPrice());
 
@@ -88,9 +92,9 @@ public class ServiceTest extends TestCase {
         assertNotNull(category.getId());
 
         // Read
-        Category savedCategory = categoryService.find(category.getId());
-        System.out.println(savedCategory);
-        assertNotNull(savedCategory);
+        Category createdCategory = categoryService.find(category.getId());
+        System.out.println(createdCategory);
+        assertNotNull(createdCategory);
 
         // Read all
         List<Category> categories = categoryService.find();
@@ -98,15 +102,15 @@ public class ServiceTest extends TestCase {
         assertEquals(1, categories.size());
 
         // Update
-        String editedName = "Edited Type";
-        category.setName(editedName);
-        Category updatedfilterGroup = categoryService.update(category);
-        System.out.println(updatedfilterGroup);
-        assertEquals(editedName, updatedfilterGroup.getName());
+        String updatedName = "Edited Type";
+        createdCategory.setName(updatedName);
+        Category updatedCategory = categoryService.update(createdCategory);
+        System.out.println(updatedCategory);
+        assertEquals(updatedName, updatedCategory.getName());
 
         // Delete
-        categoryService.delete(updatedfilterGroup.getId());
-        assertNull(categoryService.find(updatedfilterGroup.getId()));
+        categoryService.delete(updatedCategory.getId());
+        assertNull(categoryService.find(updatedCategory.getId()));
 
 
     }
@@ -135,9 +139,8 @@ public class ServiceTest extends TestCase {
         assertEquals(1, properties.size());
 
         // Update
-        Property savedProperty = propertyService.find(property.getId(), property.getCategory().getId());
-        savedProperty.setName("Nokia 2");
-        Property updatedProperty = propertyService.update(property);
+        createdProperty.setName("Nokia 2");
+        Property updatedProperty = propertyService.update(createdProperty);
         assertEquals(category.getId(), updatedProperty.getCategory().getId());
 
         // Delete
@@ -168,14 +171,14 @@ public class ServiceTest extends TestCase {
         Item item = new Item("Apple iPhone 5");
         itemService.create(item);
 
-        property1.setCategory(null);
-        propertyService.update(property1);
-
-
+        // create relationship
         Configuration configuration1 = new Configuration(item, property1);
         configurationService.create(configuration1);
+        assertNotNull(configuration1.getId());
+
         Configuration configuration2 = new Configuration(item, property2);
         configurationService.create(configuration2);
+        assertNotNull(configuration2.getId());
 
         List<Configuration> items1 = configurationService.findByItemId(item.getId());
         System.out.println(items1);
@@ -185,7 +188,6 @@ public class ServiceTest extends TestCase {
 
         List<Configuration> items2 = configurationService.findByItemId(item.getId());
         assertEquals(1, items2.size());
-
 
     }
 
