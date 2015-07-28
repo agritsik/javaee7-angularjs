@@ -5,3 +5,7 @@ var services = angular.module('catalogServices', ['ngResource'])
 services.factory('Item', ['$resource', function ($resource) {
     return $resource(baseUrl + '/items/:id', {id: '@id'}, {'update': {method: 'PUT'}});
 }]);
+
+services.factory('Category', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/categories/:id', {id: '@id'}, {'update': {method: 'PUT'}});
+}]);

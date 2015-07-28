@@ -13,6 +13,7 @@ import java.util.List;
  * Created by andrey on 6/27/15.
  */
 
+@XmlRootElement
 @Entity
 @Table(name = "items")
 @NamedQuery(name = Item.FIND_ALL, query = "select i from Item i")

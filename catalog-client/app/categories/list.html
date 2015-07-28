@@ -1,0 +1,13 @@
+<h3>All Categories</h3>
+
+<a class="" href="#categories/new">add new</a>
+
+<table class="table">
+    <tr ng-repeat="row in rows">
+        <td>{{row.name}}</td>
+        <td>
+            <a href="#categories/{{row.id}}">edit</a>
+            <a href="#" ng-click="delete(row)">delete</a>
+        </td>
+    </tr>
+</table>

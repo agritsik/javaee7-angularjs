@@ -24,34 +24,35 @@ public class ItemResource {
     ItemService itemService;
 
     @POST
-    public Response create(Item item){
+    public Response create(Item item) {
         itemService.create(item);
 
         URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(item.getId())).build();
         return Response.created(uri).build();
     }
 
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @GET
     @Path("{id}")
-    public Item find(@PathParam("id") int id){
+    public Item find(@PathParam("id") int id) {
         return itemService.find(id);
     }
 
     @GET
-    public List<Item> find(){
+    public List<Item> find() {
         return itemService.find();
     }
 
     @PUT
     @Path("{id}")
-    public Response update(@PathParam("id") int id, Item item){
+    public Response update(@PathParam("id") int id, Item item) {
         itemService.update(item);
         return Response.noContent().build();
     }
 
     @DELETE
     @Path("{id}")
-    public Response delete(@PathParam("id") int id){
+    public Response delete(@PathParam("id") int id) {
         itemService.delete(id);
         return Response.noContent().build();
     }
