@@ -27,6 +27,10 @@ public class PropertyService implements EntityChildService<Property>{
         entityManager.persist(property);
     }
 
+    public List<Property> find(){
+        return entityManager.createNamedQuery(Property.FIND_ALL).getResultList();
+    }
+
     @Override
     public Property find(int id, int parentId) {
         Property property = entityManager.find(Property.class, id);

@@ -135,6 +135,10 @@ public class ServiceTest extends TestCase {
         assertNotNull(createdProperty);
 
         // Read all
+        List<Property> properties0 = propertyService.find();
+        assertEquals(1, properties0.size());
+
+        // Read by parent todo: do we really need that method?
         List<Property> properties = propertyService.find(category.getId());
         assertEquals(1, properties.size());
 

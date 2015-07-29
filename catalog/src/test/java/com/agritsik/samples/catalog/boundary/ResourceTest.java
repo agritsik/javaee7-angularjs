@@ -18,7 +18,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ws.rs.client.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -40,6 +43,7 @@ public class ResourceTest extends TestCase {
     private Client client;
     private WebTarget targetItems;
     private WebTarget targetCategories;
+    private WebTarget targetProperties;
     private WebTarget targetConfiguration;
 
     @Deployment(testable = false)
@@ -60,6 +64,7 @@ public class ResourceTest extends TestCase {
 
         this.targetItems = this.client.target(new URL(url, "resources/items").toExternalForm());
         this.targetCategories = this.client.target(new URL(url, "resources/categories").toExternalForm());
+        this.targetProperties = this.client.target(new URL(url, "resources/properties").toExternalForm());
         this.targetConfiguration = this.client.target(new URL(url, "resources/configuration").toExternalForm());
     }
 
@@ -111,6 +116,7 @@ public class ResourceTest extends TestCase {
                 .request(MediaType.APPLICATION_JSON).get(Category.class);
         assertEquals(category.getName(), createdCategory.getName());
 
+        // todo: postResponse.getLocation()
         // Read all
         List<Category> categories = this.targetCategories.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Category>>() {
         });
@@ -151,6 +157,12 @@ public class ResourceTest extends TestCase {
         assertEquals(property.getName(), createdProperty.getName());
 
         // Read all
+
+        List<Property> properties0 = this.targetProperties.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
+        });
+        assertEquals(1, properties0.size());
+
+        // Read all by parent
         List<Property> properties = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
         });
         assertEquals(1, properties.size());
@@ -205,7 +217,7 @@ public class ResourceTest extends TestCase {
         // Read relationship
         List<Configuration> list = targetConfiguration.queryParam("item_id", createdItem.getId())
                 .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Configuration>>() {
-        });
+                });
 
         System.out.println(list);
         assertEquals(1, list.size());
