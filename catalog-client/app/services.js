@@ -9,3 +9,13 @@ services.factory('Item', ['$resource', function ($resource) {
 services.factory('Category', ['$resource', function ($resource) {
     return $resource(baseUrl + '/categories/:id', {id: '@id'}, {'update': {method: 'PUT'}});
 }]);
+
+// deprecated
+services.factory('Property', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/properties/:id');
+}]);
+
+// deprecated
+services.factory('CategoryProperty', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/categories/:pid/properties/:id', {pid: '@pid',id: '@id'});
+}]);

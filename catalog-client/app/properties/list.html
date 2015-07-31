@@ -1,0 +1,22 @@
+<h3>All Properties Under the {{category.name}}</h3>
+
+<a href="#categories/{{category.id}}/properties/new">Create New Property</a>
+
+
+<table class="table">
+    <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    <tr ng-repeat="row in rows">
+        <td>{{row.id}}</td>
+        <td>{{row.name}}</td>
+        <td>{{row.category.name}}</td>
+        <td>
+            <a href="#categories/{{row.category.id}}/properties/{{row.id}}">edit</a>
+            <a href="#" ng-click="delete(row)">delete</a>
+        </td>
+    </tr>
+</table>

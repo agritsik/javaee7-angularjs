@@ -6,15 +6,26 @@ GET /items/{id}
 // Search
 GET /items/?property={property_id},{property_id}
 
-// CRUD
-GET /categories/
-GET /categories/{id}
-
-// CRUD
-GET /categories/{id}/properties/
-GET /categories/{id}/properties/{id}
 
 
-GET /configuration/
-GET /configuration/{id}
-GET /configuration/?item_id
+
+
+
+POST    /categories/
+GET     /categories/
+GET     /categories/{id}
+PUT     /categories/{id}
+DELETE  /categories/{id}
+
+
+POST    /categories/{id}/properties/
+GET     /categories/{id}/properties/
+GET     /properties/
+GET     /properties/{id}/
+PUT     /properties/{id}/
+DELETE  /properties/{id}/
+
+
+POST    /configuration/
+GET     /configuration/{id}
+GET     /configuration/?item_id

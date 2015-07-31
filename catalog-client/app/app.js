@@ -1,16 +1,19 @@
 var catalogApp = angular.module('catalogApp', [
     'ngRoute',
+    'restangular',
     'catalogServices',
 
     // controllers:
     'itemControllers',
-    'categoriesControllers'
+    'categoriesControllers',
+    'propertiesControllers'
 ]);
 
 catalogApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
 
+            // items
             when('/items', {
                 templateUrl: 'app/items/list.html',
                 controller: 'ListCtrl'
@@ -24,6 +27,7 @@ catalogApp.config(['$routeProvider',
                 controller: 'EditCtrl'
             }).
 
+            // categories
             when('/categories', {
                 templateUrl: 'app/categories/list.html',
                 controller: 'ListCategoriesCtrl'
@@ -37,7 +41,27 @@ catalogApp.config(['$routeProvider',
                 controller: 'EditCategoriesCtrl'
             }).
 
+            // properties
+            when('/categories/:pid/properties/', {
+                templateUrl: 'app/properties/list.html',
+                controller: 'ListPropertiesCtrl'
+            }).
+            when('/categories/:pid/properties/new', {
+                templateUrl: 'app/properties/create.html',
+                controller: 'CreatePropertiesCtrl'
+            }).
+            when('/categories/:pid/properties/:id', {
+                templateUrl: 'app/properties/edit.html',
+                controller: 'EditPropertiesCtrl'
+            }).
+
+
+
             otherwise({
                 redirectTo: '/items'
             });
     }]);
+
+catalogApp.config(function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('http://192.168.59.103:8080/app/resources');
+});
