@@ -1,6 +1,8 @@
 var catalogApp = angular.module('catalogApp', [
     'ngRoute',
     'restangular',
+    "checklist-model",
+    //'angularjs-dropdown-multiselect',
     'catalogServices',
 
     // controllers:
@@ -25,6 +27,10 @@ catalogApp.config(['$routeProvider',
             when('/items/:id', {
                 templateUrl: 'app/items/edit.html',
                 controller: 'EditCtrl'
+            }).
+            when('/items/:id/configurations', {
+                templateUrl: 'app/items/configurations.html',
+                controller: 'ConfigurationCtrl'
             }).
 
             // categories

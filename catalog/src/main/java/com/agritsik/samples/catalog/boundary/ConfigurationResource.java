@@ -14,7 +14,7 @@ import java.util.List;
  * Created by andrey on 7/24/15.
  */
 
-@Path("configuration")
+@Path("/configuration")
 public class ConfigurationResource {
 
     @Context
@@ -38,8 +38,9 @@ public class ConfigurationResource {
 
     @DELETE
     @Path("{id}")
-    public void delete(@PathParam("id") int id){
+    public Response delete(@PathParam("id") int id){
         configurationService.delete(id);
+        return Response.noContent().build();
     }
 
 

@@ -19,3 +19,8 @@ services.factory('Property', ['$resource', function ($resource) {
 services.factory('CategoryProperty', ['$resource', function ($resource) {
     return $resource(baseUrl + '/categories/:pid/properties/:id', {pid: '@pid',id: '@id'});
 }]);
+
+
+services.factory('Configuration', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/configuration/:id', {id: '@id'});
+}]);

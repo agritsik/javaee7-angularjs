@@ -7,6 +7,9 @@
         <td>{{item.name}}</td>
         <td>{{item.price}}</td>
         <td>
+            <a href="#/items/{{item.id}}/configurations">configurations</a>
+        </td>
+        <td>
             <a href="#items/{{item.id}}">edit</a>
             <a href="#" ng-click="delete(item)">delete</a>
         </td>

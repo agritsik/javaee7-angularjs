@@ -223,5 +223,9 @@ public class ResourceTest extends TestCase {
         assertEquals(1, list.size());
 
 
+        Response deleteResponse = client.target(response.getLocation()).request(MediaType.APPLICATION_JSON).delete();
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), deleteResponse.getStatus());
+
+
     }
 }

@@ -38,3 +38,42 @@ controllers.controller('EditCtrl', ['$scope', 'Item', '$routeParams', '$location
         }
 
     }]);
+
+
+controllers.controller('ConfigurationCtrl', ['$scope', 'Restangular', 'Configuration', '$routeParams', '$location', '$route',
+    function ($scope, Restangular, Configuration, $routeParams, $location, $route) {
+
+        // get current item
+        var item = Restangular.one("items", $routeParams.id).get().$object;
+
+        // get all properties
+        $scope.rows = Restangular.all("properties").getList().$object;
+
+        // selected property
+        $scope.selected;
+
+        // get existed configurations
+        $scope.configurations = Restangular.all("configuration").getList({"item_id": $routeParams.id}).$object;
+
+        $scope.submit = function () {
+
+            var c = {
+                item: item,
+                property: $scope.selected
+            };
+
+            Restangular.all("configuration").post(c).then(function(){
+                $route.reload();
+            });
+
+        };
+
+        $scope.delete = function (c) {
+            var c = new Configuration({id: c.id});
+            c.$delete().then(function(){
+                $route.reload();
+            })
+        };
+
+    }])
+;
