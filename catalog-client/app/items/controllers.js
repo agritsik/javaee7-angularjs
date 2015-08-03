@@ -69,10 +69,13 @@ controllers.controller('ConfigurationCtrl', ['$scope', 'Restangular', 'Configura
         };
 
         $scope.delete = function (c) {
-            var c = new Configuration({id: c.id});
-            c.$delete().then(function(){
-                $route.reload();
-            })
+
+            Restangular.one("configuration", c.id).remove();
+
+            //var c = new Configuration({id: c.id});
+            //c.$delete().then(function(){
+            //    $route.reload();
+            //})
         };
 
     }])
