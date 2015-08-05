@@ -6,43 +6,46 @@ controllers.controller('ListPropertiesCtrl', ['$scope', 'Property', '$routeParam
 
         $scope.rows = Property.query();
 
-        //$scope.category = Restangular.one("categories", $routeParams.pid).get().$object;
-        //$scope.rows = Restangular.one("categories", $routeParams.pid).all("properties").getList().$object;
-
     }]);
 
-controllers.controller('CreatePropertiesCtrl', ['$scope', 'Category', 'CategoryProperty', '$routeParams', '$location', '$route',
-    function ($scope, Category, CategoryProperty, $routeParams, $location, $route) {
+controllers.controller('CreatePropertiesCtrl', ['$scope', 'Category', 'Property', '$routeParams', '$location', '$route',
+    function ($scope, Category, Property, $routeParams, $location, $route) {
 
         $scope.categories = Category.query();
-        $scope.row = new CategoryProperty();
+        $scope.row = new Property();
 
+        // select first
         $scope.categories.$promise.then(function () {
             $scope.selected = $scope.categories[0];
         });
 
         $scope.submit = function () {
+            $scope.row.category = $scope.selected;
+
             console.log($scope.row);
-            $scope.row.$save({pid: $scope.selected.id}).then(function () {
+            $scope.row.$save().then(function () {
                 console.log("created!");
             })
         }
 
     }]);
 
-controllers.controller('EditPropertiesCtrl', ['$scope', 'Category', 'CategoryProperty', '$routeParams', '$location', '$route',
-    function ($scope, Category, CategoryProperty, $routeParams, $location, $route) {
+controllers.controller('EditPropertiesCtrl', ['$scope', 'Category', 'Property', '$routeParams', '$location', '$route',
+    function ($scope, Category, Property, $routeParams, $location, $route) {
 
         $scope.categories = Category.query();
-        $scope.row = new CategoryProperty.get({pid: $routeParams.pid, id: $routeParams.id});
+        $scope.row = new Property.get({id: $routeParams.id});
 
+        // preselect
         $scope.row.$promise.then(function () {
             $scope.selected = $scope.row.category;
         });
 
         $scope.submit = function () {
+            $scope.row.category = $scope.selected;
+
             console.log($scope.row);
-            $scope.row.$update({pid: $scope.selected.id}).then(function () {
+            $scope.row.$update().then(function () {
                 console.log("updated!");
             })
         }

@@ -57,12 +57,10 @@ catalogApp.config(['$routeProvider',
                 templateUrl: 'app/properties/create.html',
                 controller: 'CreatePropertiesCtrl'
             }).
-            when('/categories/:pid/properties/:id', {
+            when('/properties/:id', {
                 templateUrl: 'app/properties/edit.html',
                 controller: 'EditPropertiesCtrl'
             }).
-
-
 
             otherwise({
                 redirectTo: '/items'
