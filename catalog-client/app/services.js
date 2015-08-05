@@ -17,7 +17,7 @@ services.factory('Property', ['$resource', function ($resource) {
 
 // deprecated
 services.factory('CategoryProperty', ['$resource', function ($resource) {
-    return $resource(baseUrl + '/categories/:pid/properties/:id', {pid: '@pid',id: '@id'});
+    return $resource(baseUrl + '/categories/:pid/properties/:id', {pid: '@pid',id: '@id'}, {'update': {method: 'PUT'}});
 }]);
 
 

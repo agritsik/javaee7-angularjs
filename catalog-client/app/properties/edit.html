@@ -1,6 +1,11 @@
 <h3>Edit </h3>
 
 <form ng-submit="submit()">
+
+    <select ng-model="selected.id"
+            ng-options="c.id as c.name for c in categories"></select>
+    {{selected}}
+
     <div class="form-group">
         <input type="text" class="form-control input-lg" placeholder="Name" ng-model="row.name" ng-required>
     </div>

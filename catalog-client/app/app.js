@@ -48,11 +48,12 @@ catalogApp.config(['$routeProvider',
             }).
 
             // properties
-            when('/categories/:pid/properties/', {
+
+            when('/properties/', {
                 templateUrl: 'app/properties/list.html',
                 controller: 'ListPropertiesCtrl'
             }).
-            when('/categories/:pid/properties/new', {
+            when('/properties/new', {
                 templateUrl: 'app/properties/create.html',
                 controller: 'CreatePropertiesCtrl'
             }).

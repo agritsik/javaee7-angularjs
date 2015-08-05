@@ -1,35 +1,50 @@
 var controllers = angular.module('propertiesControllers', []);
 
-controllers.controller('ListPropertiesCtrl', ['$scope', 'Restangular', '$routeParams', '$location', '$route',
-    function ($scope, Restangular, $routeParams, $location, $route) {
+controllers.controller('ListPropertiesCtrl', ['$scope', 'Property', '$routeParams', '$location', '$route',
+    function ($scope, Property, $routeParams, $location, $route) {
 
-        $scope.category = Restangular.one("categories", $routeParams.pid).get().$object;
-        $scope.rows = Restangular.one("categories", $routeParams.pid).all("properties").getList().$object;
+
+        $scope.rows = Property.query();
+
+        //$scope.category = Restangular.one("categories", $routeParams.pid).get().$object;
+        //$scope.rows = Restangular.one("categories", $routeParams.pid).all("properties").getList().$object;
 
     }]);
 
-controllers.controller('CreatePropertiesCtrl', ['$scope', 'Restangular', '$routeParams', '$location', '$route',
-    function ($scope, Restangular, $routeParams, $location, $route) {
+controllers.controller('CreatePropertiesCtrl', ['$scope', 'Category', 'CategoryProperty', '$routeParams', '$location', '$route',
+    function ($scope, Category, CategoryProperty, $routeParams, $location, $route) {
 
-        $scope.row = null;
+        $scope.categories = Category.query();
+        $scope.row = new CategoryProperty();
+
+        $scope.categories.$promise.then(function () {
+            $scope.selected = $scope.categories[0];
+        });
 
         $scope.submit = function () {
-            Restangular.one("categories", $routeParams.pid).post("properties", $scope.row).then(function () {
-                $location.path("/categories/" + $routeParams.pid + "/properties");
-            });
+            console.log($scope.row);
+            $scope.row.$save({pid: $scope.selected.id}).then(function () {
+                console.log("created!");
+            })
         }
 
     }]);
 
-controllers.controller('EditPropertiesCtrl', ['$scope', 'Restangular', '$routeParams', '$location', '$route',
-    function ($scope, Restangular, $routeParams, $location, $route) {
+controllers.controller('EditPropertiesCtrl', ['$scope', 'Category', 'CategoryProperty', '$routeParams', '$location', '$route',
+    function ($scope, Category, CategoryProperty, $routeParams, $location, $route) {
 
-        $scope.row = Restangular.one("categories", $routeParams.pid).one("properties", $routeParams.id).get().$object;
+        $scope.categories = Category.query();
+        $scope.row = new CategoryProperty.get({pid: $routeParams.pid, id: $routeParams.id});
+
+        $scope.row.$promise.then(function () {
+            $scope.selected = $scope.row.category;
+        });
 
         $scope.submit = function () {
-            Restangular.one("categories", $routeParams.pid).one("properties", $routeParams.id).customPUT($scope.row).then(function () {
-                $location.path("/categories/" + $routeParams.pid + "/properties");
-            });
+            console.log($scope.row);
+            $scope.row.$update({pid: $scope.selected.id}).then(function () {
+                console.log("updated!");
+            })
         }
 
 

@@ -25,7 +25,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @XmlTransient
+//    @XmlTransient
     @ManyToOne
     Category category;
 

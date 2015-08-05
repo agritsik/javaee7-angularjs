@@ -143,6 +143,11 @@ public class ResourceTest extends TestCase {
         Category category = new Category("HDD");
         Response parentPostResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
         URI parentLocation = parentPostResponse.getLocation();
+        // Create Parent
+        Category category2 = new Category("HDD2");
+        Response parentPostResponse2 = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category2));
+        URI parentLocation2 = parentPostResponse2.getLocation();
+        Category createdCategory2 = this.client.target(parentLocation2).request(MediaType.APPLICATION_JSON).get(Category.class);
 
 
         // Create
@@ -155,9 +160,9 @@ public class ResourceTest extends TestCase {
         Property createdProperty = this.client.target(postResponse.getLocation())
                 .request(MediaType.APPLICATION_JSON).get(Property.class);
         assertEquals(property.getName(), createdProperty.getName());
+        System.out.println(property);
 
         // Read all
-
         List<Property> properties0 = this.targetProperties.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
         });
         assertEquals(1, properties0.size());
@@ -168,10 +173,19 @@ public class ResourceTest extends TestCase {
         assertEquals(1, properties.size());
 
         // Update
+        System.out.println("=======================");
         createdProperty.setName("100Gb Edited");
+        createdCategory2.setName("HDD3");
+        createdProperty.setCategory(createdCategory2);
+
         Response putResponse = this.client.target(postResponse.getLocation())
                 .request(MediaType.APPLICATION_JSON).put(Entity.json(createdProperty));
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
+
+        List<Property> properties2 = this.targetProperties.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
+        });
+        assertEquals(1, properties2.size());
+        System.out.println(properties2);
 
         // Delete
         Response deleteResponse = this.client.target(postResponse.getLocation())

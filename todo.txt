@@ -31,24 +31,15 @@ GET     /configuration/{id}
 GET     /configuration/?item_id
 
 
-Accept:*/*
-Accept-Encoding:gzip, deflate, sdch
-Accept-Language:en-US,en;q=0.8,ru;q=0.6
-Access-Control-Request-Headers:accept
-Access-Control-Request-Method:DELETE
-Connection:keep-alive
-Host:192.168.59.103:8080
-Origin:http://localhost:63342
-Referer:http://localhost:63342/javaee7-angularjs/catalog-client/index.html
-User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36
 
-Accept:application/json, text/plain, */*
-Accept-Encoding:gzip, deflate, sdch
-Accept-Language:en-US,en;q=0.8,ru;q=0.6
-Connection:keep-alive
-Content-Length:9
-Content-Type:text/plain;charset=UTF-8
-Host:192.168.59.103:8080
-Origin:http://localhost:63342
-Referer:http://localhost:63342/javaee7-angularjs/catalog-client/index.html
-User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.107 Safari/537.36
+
+
+PUT http://localhost:8181/test/resources/categories/3/properties/5
+
+{"id":5,"category":{"id":3,"name":"HDD"},"name":"100Gb"}
+{"id":5,"category":{"id":4,"name":"HDD3"},"name":"100Gb Edited"}
+
+
+
+[EL Fine]: sql: 2015-08-05 14:22:39.521--ClientSession(1619792373)--Connection(920762567)--UPDATE properties SET NAME = ?, CATEGORY_ID = ? WHERE (ID = ?)
+        bind => [100Gb Edited, 4, 5]
