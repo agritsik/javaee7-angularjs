@@ -26,7 +26,6 @@ public class CategoryService implements EntityService<Category> {
         return entityManager.find(Category.class, id);
     }
 
-    @Override
     public List<Category> find() {
         return entityManager.createNamedQuery(Category.FIND_ALL).getResultList();
     }

@@ -1,7 +1,6 @@
 package com.agritsik.samples.catalog.boundary;
 
 import com.agritsik.samples.catalog.entity.Property;
-import com.agritsik.samples.catalog.entity.Category;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -14,34 +13,24 @@ import java.util.List;
  */
 @Stateless
 @LocalBean
-public class PropertyService implements EntityChildService<Property>{
+public class PropertyService implements EntityService<Property>{
 
     @PersistenceContext
     EntityManager entityManager;
 
     @Override
-    public void create(Property property, int parentId) {
-        Category category = entityManager.find(Category.class, parentId);
-        property.setCategory(category);
-
+    public void create(Property property) {
         entityManager.persist(property);
     }
 
-    public List<Property> find(){
+    @Override
+    public Property find(int id) {
+        return entityManager.find(Property.class, id);
+    }
+
+    @Override
+    public List<Property> find() {
         return entityManager.createNamedQuery(Property.FIND_ALL).getResultList();
-    }
-
-    @Override
-    public Property find(int id, int parentId) {
-        Property property = entityManager.find(Property.class, id);
-        return  (property.getCategory().getId() == parentId) ? property : null;
-    }
-
-    @Override
-    public List<Property> find(int parentId) {
-        return entityManager.createNamedQuery(Property.FIND_ALL_BY_CATEGORY)
-                .setParameter("categoryId", parentId)
-                .getResultList();
     }
 
     @Override
@@ -54,6 +43,4 @@ public class PropertyService implements EntityChildService<Property>{
         Property property = entityManager.find(Property.class, id);
         entityManager.remove(property);
     }
-
-
 }
