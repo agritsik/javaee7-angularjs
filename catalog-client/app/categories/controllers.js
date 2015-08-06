@@ -26,8 +26,8 @@ controllers.controller('CreateCategoriesCtrl', ['$scope', 'Category', '$routePar
 
     }]);
 
-controllers.controller('EditCategoriesCtrl', ['$scope', 'Category', 'CategoryProperty', '$routeParams', '$location', '$route',
-    function ($scope, Category, CategoryProperty, $routeParams, $location, $route) {
+controllers.controller('EditCategoriesCtrl', ['$scope', 'Category', '$routeParams', '$location', '$route',
+    function ($scope, Category, $routeParams, $location, $route) {
 
 
         $scope.row = Category.get({id: $routeParams.id});

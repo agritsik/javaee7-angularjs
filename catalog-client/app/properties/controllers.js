@@ -3,8 +3,13 @@ var controllers = angular.module('propertiesControllers', []);
 controllers.controller('ListPropertiesCtrl', ['$scope', 'Property', '$routeParams', '$location', '$route',
     function ($scope, Property, $routeParams, $location, $route) {
 
-
         $scope.rows = Property.query();
+
+        $scope.delete = function (row) {
+            row.$delete().then(function(){
+                $route.reload();
+            })
+        }
 
     }]);
 
@@ -22,9 +27,9 @@ controllers.controller('CreatePropertiesCtrl', ['$scope', 'Category', 'Property'
         $scope.submit = function () {
             $scope.row.category = $scope.selected;
 
-            console.log($scope.row);
+            //console.log($scope.row);
             $scope.row.$save().then(function () {
-                console.log("created!");
+                $location.path("/properties");
             })
         }
 
@@ -44,9 +49,8 @@ controllers.controller('EditPropertiesCtrl', ['$scope', 'Category', 'Property', 
         $scope.submit = function () {
             $scope.row.category = $scope.selected;
 
-            console.log($scope.row);
             $scope.row.$update().then(function () {
-                console.log("updated!");
+                $location.path("/properties");
             })
         }
 

@@ -2,15 +2,11 @@
 
 <form ng-submit="submit()">
 
-    <select ng-model="selected.id"
-            ng-options="c.id as c.name for c in categories"></select>
-    {{selected}}
+    <div ng-include="'app/properties/_form.html'"></div>
 
-    <div class="form-group">
-        <input type="text" class="form-control input-lg" placeholder="Name" ng-model="row.name" ng-required>
-    </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Create</button>
         <a class="btn btn-link" href="#properties">cancel</a>
     </div>
+
 </form>

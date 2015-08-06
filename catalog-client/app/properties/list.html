@@ -1,6 +1,6 @@
-<h3>All Properties Under the {{category.name}}</h3>
+<h3>List</h3>
 
-<a href="#properties/new">Create New Property</a>
+<a href="#properties/new">add new</a>
 
 <table class="table">
     <tr>
@@ -15,7 +15,7 @@
         <td>{{row.category.name}}</td>
         <td>
             <a href="#properties/{{row.id}}">edit</a>
-            <a href="#" ng-click="delete(row)">delete</a>
+            <a href="" ng-click="delete(row)">delete</a>
         </td>
     </tr>
 </table>
