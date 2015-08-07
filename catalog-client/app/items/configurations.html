@@ -1,17 +1,19 @@
-hey dude! {{id}}
-
+<h3>Create configuration:</h3>
 
 <form ng-submit="submit()">
-    <select ng-model="selected" ng-options="row as row.name for row in rows"></select>
-    <input type="submit" value="Add">
+
+    <div class="form-group">
+        <select ng-model="selected"
+                ng-options="row as row.name for row in rows"
+                class="form-control"></select>
+    </div>
+    <input type="submit" value="Add" class="btn btn-primary">
+
 </form>
-
-{{selected}}
-
 <hr/>
 <ul>
     <li ng-repeat="c in configurations">
-        {{c.item.name}} + {{c.property.name}} <a href="#" ng-click="delete(c)">delete</a>
+        {{c.item.name}} + {{c.property.name}} <a href="" ng-click="delete(c)">delete</a>
     </li>
 </ul>
 

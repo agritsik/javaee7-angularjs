@@ -40,42 +40,37 @@ controllers.controller('EditCtrl', ['$scope', 'Item', '$routeParams', '$location
     }]);
 
 
-controllers.controller('ConfigurationCtrl', ['$scope', 'Restangular', 'Configuration', '$routeParams', '$location', '$route',
-    function ($scope, Restangular, Configuration, $routeParams, $location, $route) {
+controllers.controller('ConfigurationCtrl', ['$scope', 'Item', 'Property', 'Configuration', '$routeParams', '$location', '$route',
+    function ($scope, Item, Property, Configuration, $routeParams, $location, $route) {
 
         // get current item
-        var item = Restangular.one("items", $routeParams.id).get().$object;
+        var item = Item.get({id: $routeParams.id});
 
         // get all properties
-        $scope.rows = Restangular.all("properties").getList().$object;
+        $scope.rows = Property.query();
 
         // selected property
-        $scope.selected;
+        $scope.rows.$promise.then(function () {
+            $scope.selected = $scope.rows[0];
+        });
 
         // get existed configurations
-        $scope.configurations = Restangular.all("configuration").getList({"item_id": $routeParams.id}).$object;
+        $scope.configurations = Configuration.query({item_id: $routeParams.id});
 
         $scope.submit = function () {
-
-            var c = {
+            var c = new Configuration({
                 item: item,
                 property: $scope.selected
-            };
-
-            Restangular.all("configuration").post(c).then(function(){
+            });
+            c.$save().then(function () {
                 $route.reload();
             });
-
         };
 
         $scope.delete = function (c) {
-
-            Restangular.one("configuration", c.id).remove();
-
-            //var c = new Configuration({id: c.id});
-            //c.$delete().then(function(){
-            //    $route.reload();
-            //})
+            c.$delete().then(function () {
+                $route.reload();
+            });
         };
 
     }])

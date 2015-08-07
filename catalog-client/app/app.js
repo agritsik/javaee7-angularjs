@@ -1,8 +1,5 @@
 var catalogApp = angular.module('catalogApp', [
     'ngRoute',
-    'restangular',
-    "checklist-model",
-    //'angularjs-dropdown-multiselect',
     'catalogServices',
 
     // controllers:
@@ -67,12 +64,3 @@ catalogApp.config(['$routeProvider',
             });
     }]);
 
-catalogApp.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://192.168.59.103:8080/app/resources');
-    RestangularProvider.setRequestInterceptor(function(elem, operation) {
-        if (operation === "remove") {
-            return undefined;
-        }
-        return elem;
-    });
-});

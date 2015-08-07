@@ -17,9 +17,6 @@
     "angular": "~1.4.1",
     "angular-resource": "~1.4.1",
     "angular-route": "~1.4.1",
-    "bootstrap": "~3.3.5",
-    "restangular": "~1.5.1",
-    "angularjs-dropdown-multiselect": "~1.5.2",
-    "checklist-model": "~0.2.4"
+    "bootstrap": "~3.3.5"
   }
 }
