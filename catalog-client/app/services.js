@@ -2,19 +2,19 @@ var baseUrl = 'http://192.168.59.103:8080/app/resources';
 
 var services = angular.module('catalogServices', ['ngResource'])
 
-services.factory('Item', ['$resource', function ($resource) {
-    return $resource(baseUrl + '/items/:id', {id: '@id'}, {'update': {method: 'PUT'}});
+services.factory('PlayerResource', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/players/:id', {id: '@id'}, {'update': {method: 'PUT'}});
 }]);
 
-services.factory('Category', ['$resource', function ($resource) {
-    return $resource(baseUrl + '/categories/:id', {id: '@id'}, {'update': {method: 'PUT'}});
+services.factory('CountryResource', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/countries/:id', {id: '@id'}, {'update': {method: 'PUT'}});
 }]);
 
-services.factory('Property', ['$resource', function ($resource) {
-    return $resource(baseUrl + '/properties/:id', {id: '@id'}, {'update': {method: 'PUT'}});
+services.factory('ClubResource', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/clubs/:id', {id: '@id'}, {'update': {method: 'PUT'}});
 }]);
 
 
-services.factory('Configuration', ['$resource', function ($resource) {
-    return $resource(baseUrl + '/configuration/:id', {id: '@id'});
+services.factory('CareerResource', ['$resource', function ($resource) {
+    return $resource(baseUrl + '/careers/:id', {id: '@id'});
 }]);

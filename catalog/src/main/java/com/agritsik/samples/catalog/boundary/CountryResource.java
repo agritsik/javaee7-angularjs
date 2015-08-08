@@ -1,6 +1,6 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Category;
+import com.agritsik.samples.catalog.entity.Country;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -13,45 +13,45 @@ import java.util.List;
 /**
  * Created by andrey on 7/24/15.
  */
-@Path("/categories")
-public class CategoryResource {
+@Path("/countries")
+public class CountryResource {
 
     @Context
     UriInfo uriInfo;
 
     @EJB
-    CategoryService categoryService;
+    CountryService countryService;
 
     @POST
-    public Response create(Category category){
-        categoryService.create(category);
+    public Response create(Country country){
+        countryService.create(country);
 
-        URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(category.getId())).build();
+        URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(country.getId())).build();
         return Response.created(uri).build();
     }
 
     @GET
     @Path("{id}")
-    public Category find(@PathParam("id") int id){
-        return categoryService.find(id);
+    public Country find(@PathParam("id") int id){
+        return countryService.find(id);
     }
 
     @GET
-    public List<Category> find(){
-        return categoryService.find();
+    public List<Country> find(){
+        return countryService.find();
     }
 
     @PUT
     @Path("{id}")
-    public Response update(@PathParam("id") int id, Category category){
-        categoryService.update(category);
+    public Response update(@PathParam("id") int id, Country country){
+        countryService.update(country);
         return Response.noContent().build();
     }
 
     @DELETE
     @Path("{id}")
     public Response delete(@PathParam("id") int id){
-        categoryService.delete(id);
+        countryService.delete(id);
         return Response.noContent().build();
     }
 

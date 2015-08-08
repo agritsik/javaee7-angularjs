@@ -1,4 +1,4 @@
-<h3>Create configuration:</h3>
+<h3>Create career:</h3>
 
 <form ng-submit="submit()">
 
@@ -12,8 +12,8 @@
 </form>
 <hr/>
 <ul>
-    <li ng-repeat="c in configurations">
-        {{c.item.name}} + {{c.property.name}} <a href="" ng-click="delete(c)">delete</a>
+    <li ng-repeat="c in careers">
+        {{c.player.name}} + {{c.club.name}} <a href="" ng-click="delete(c)">delete</a>
     </li>
 </ul>
 

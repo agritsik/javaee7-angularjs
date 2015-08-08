@@ -1,9 +1,9 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Category;
-import com.agritsik.samples.catalog.entity.Configuration;
-import com.agritsik.samples.catalog.entity.Item;
-import com.agritsik.samples.catalog.entity.Property;
+import com.agritsik.samples.catalog.entity.Country;
+import com.agritsik.samples.catalog.entity.Career;
+import com.agritsik.samples.catalog.entity.Player;
+import com.agritsik.samples.catalog.entity.Club;
 import junit.framework.TestCase;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,10 +42,10 @@ public class ResourceTest extends TestCase {
     public static final Logger LOGGER = Logger.getLogger(ResourceTest.class.getName());
 
     private Client client;
-    private WebTarget targetItems;
-    private WebTarget targetCategories;
-    private WebTarget propertiesResource;
-    private WebTarget targetConfiguration;
+    private WebTarget playerResource;
+    private WebTarget countryResource;
+    private WebTarget clubResource;
+    private WebTarget careerResource;
 
     @Deployment(testable = false)
     public static Archive<?> createDeployment() {
@@ -63,10 +63,10 @@ public class ResourceTest extends TestCase {
         this.client = ClientBuilder.newClient();
         this.client.register(new LoggingFilter(LOGGER, true));
 
-        this.targetItems = this.client.target(new URL(url, "resources/items").toExternalForm());
-        this.targetCategories = this.client.target(new URL(url, "resources/categories").toExternalForm());
-        this.propertiesResource = this.client.target(new URL(url, "resources/properties").toExternalForm());
-        this.targetConfiguration = this.client.target(new URL(url, "resources/configuration").toExternalForm());
+        this.playerResource = this.client.target(new URL(url, "resources/players").toExternalForm());
+        this.countryResource = this.client.target(new URL(url, "resources/countries").toExternalForm());
+        this.clubResource = this.client.target(new URL(url, "resources/clubs").toExternalForm());
+        this.careerResource = this.client.target(new URL(url, "resources/careers").toExternalForm());
     }
 
     @InSequence(1)
@@ -74,26 +74,26 @@ public class ResourceTest extends TestCase {
     public void testItemREST() throws Exception {
 
         // Create
-        Item item = new Item("Samsung Galaxy S6");
-        item.setPrice(BigDecimal.valueOf(199.99));
-        Response postResponse = this.targetItems.request(MediaType.APPLICATION_JSON).post(Entity.json(item));
+        Player player = new Player("Samsung Galaxy S6");
+        player.setPrice(BigDecimal.valueOf(199.99));
+        Response postResponse = this.playerResource.request(MediaType.APPLICATION_JSON).post(Entity.json(player));
         assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
         assertNotNull(postResponse.getLocation());
 
         // Read
-        Item createdItem = this.client.target(postResponse.getLocation())
-                .request(MediaType.APPLICATION_JSON).get(Item.class);
-        assertEquals(item.getName(), createdItem.getName());
+        Player createdPlayer = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).get(Player.class);
+        assertEquals(player.getName(), createdPlayer.getName());
 
         // Read all
-        List<Item> items = this.targetItems.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Item>>() {
+        List<Player> players = this.playerResource.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Player>>() {
         });
-        assertEquals(1, items.size());
+        assertEquals(1, players.size());
 
         // Update
-        createdItem.setPrice(BigDecimal.valueOf(299.99));
+        createdPlayer.setPrice(BigDecimal.valueOf(299.99));
         Response putResponse = this.client.target(postResponse.getLocation())
-                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdItem));
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdPlayer));
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
 
         // Delete
@@ -107,25 +107,25 @@ public class ResourceTest extends TestCase {
     public void testCategoryREST() throws Exception {
 
         // Create
-        Category category = new Category("RAM");
-        Response postResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        Country country = new Country("RAM");
+        Response postResponse = this.countryResource.request(MediaType.APPLICATION_JSON).post(Entity.json(country));
         assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
         assertNotNull(postResponse.getLocation());
 
         // Read
-        Category createdCategory = this.client.target(postResponse.getLocation())
-                .request(MediaType.APPLICATION_JSON).get(Category.class);
-        assertEquals(category.getName(), createdCategory.getName());
+        Country createdCountry = this.client.target(postResponse.getLocation())
+                .request(MediaType.APPLICATION_JSON).get(Country.class);
+        assertEquals(country.getName(), createdCountry.getName());
 
         // Read all
-        List<Category> categories = this.targetCategories.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Category>>() {
+        List<Country> countries = this.countryResource.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Country>>() {
         });
-        assertEquals(1, categories.size());
+        assertEquals(1, countries.size());
 
         // Update
-        createdCategory.setName("RAM Edited");
+        createdCountry.setName("RAM Edited");
         Response putResponse = this.client.target(postResponse.getLocation())
-                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdCategory));
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(createdCountry));
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
 
         // Delete
@@ -140,37 +140,37 @@ public class ResourceTest extends TestCase {
     public void testPropertyREST() throws Exception {
 
         // Create Parent 1 todo: skipped for now
-        Category category = new Category("HDD");
-        Response parentPostResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        Country country = new Country("HDD");
+        Response parentPostResponse = this.countryResource.request(MediaType.APPLICATION_JSON).post(Entity.json(country));
         URI parentLocation = parentPostResponse.getLocation();
 
         // Create Parent 2 todo: skipped for now
-        Category category2 = new Category("HDD2");
-        Response parentPostResponse2 = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category2));
+        Country country2 = new Country("HDD2");
+        Response parentPostResponse2 = this.countryResource.request(MediaType.APPLICATION_JSON).post(Entity.json(country2));
         URI parentLocation2 = parentPostResponse2.getLocation();
-        Category createdCategory2 = this.client.target(parentLocation2).request(MediaType.APPLICATION_JSON).get(Category.class);
+        Country createdCountry2 = this.client.target(parentLocation2).request(MediaType.APPLICATION_JSON).get(Country.class);
 
 
         // Create
-        Property property = new Property("100Gb");
-        Response postResponse = this.propertiesResource.request(MediaType.APPLICATION_JSON).post(Entity.json(property));
+        Club club = new Club("100Gb");
+        Response postResponse = this.clubResource.request(MediaType.APPLICATION_JSON).post(Entity.json(club));
         assertEquals(Response.Status.CREATED.getStatusCode(), postResponse.getStatus());
         assertNotNull(postResponse.getLocation());
         WebTarget createdPropertyResource = this.client.target(postResponse.getLocation());
 
         // Read
-        Property createdProperty = createdPropertyResource.request(MediaType.APPLICATION_JSON).get(Property.class);
-        assertEquals(property.getName(), createdProperty.getName());
-        System.out.println(property);
+        Club createdClub = createdPropertyResource.request(MediaType.APPLICATION_JSON).get(Club.class);
+        assertEquals(club.getName(), createdClub.getName());
+        System.out.println(club);
 
         // Read all
-        List<Property> properties0 = this.propertiesResource.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Property>>() {
+        List<Club> clubs0 = this.clubResource.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Club>>() {
         });
-        assertEquals(1, properties0.size());
+        assertEquals(1, clubs0.size());
 
         // Update
-        createdProperty.setName("100Gb Edited");
-        Response putResponse = createdPropertyResource.request(MediaType.APPLICATION_JSON).put(Entity.json(createdProperty));
+        createdClub.setName("100Gb Edited");
+        Response putResponse = createdPropertyResource.request(MediaType.APPLICATION_JSON).put(Entity.json(createdClub));
         assertEquals(Response.Status.NO_CONTENT.getStatusCode(), putResponse.getStatus());
 
         // Delete
@@ -185,38 +185,38 @@ public class ResourceTest extends TestCase {
     public void testConfigurationREST() throws Exception {
 
         // Create Category
-        Category category = new Category("HDD");
-        Response parentPostResponse = this.targetCategories.request(MediaType.APPLICATION_JSON).post(Entity.json(category));
+        Country country = new Country("HDD");
+        Response parentPostResponse = this.countryResource.request(MediaType.APPLICATION_JSON).post(Entity.json(country));
         URI parentLocation = parentPostResponse.getLocation();
 
         // Create Properties
-        Property property1 = new Property("100Gb");
-        Property property2 = new Property("300Gb");
-        Property property3 = new Property("500Gb");
-        Response postResponse1 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property1));
-        Response postResponse2 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property2));
-        Response postResponse3 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(property3));
-        Property p1 = this.client.target(postResponse1.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
-        Property p2 = this.client.target(postResponse2.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
-        Property p3 = this.client.target(postResponse3.getLocation()).request(MediaType.APPLICATION_JSON).get(Property.class);
+        Club club1 = new Club("100Gb");
+        Club club2 = new Club("300Gb");
+        Club club3 = new Club("500Gb");
+        Response postResponse1 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(club1));
+        Response postResponse2 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(club2));
+        Response postResponse3 = this.client.target(parentLocation).path("properties").request(MediaType.APPLICATION_JSON).post(Entity.json(club3));
+        Club p1 = this.client.target(postResponse1.getLocation()).request(MediaType.APPLICATION_JSON).get(Club.class);
+        Club p2 = this.client.target(postResponse2.getLocation()).request(MediaType.APPLICATION_JSON).get(Club.class);
+        Club p3 = this.client.target(postResponse3.getLocation()).request(MediaType.APPLICATION_JSON).get(Club.class);
 
         // Create Item
-        Item item = new Item("Samsung Galaxy S6");
-        Response postResponse = this.targetItems.request(MediaType.APPLICATION_JSON).post(Entity.json(item));
-        Item createdItem = this.client.target(postResponse.getLocation()).request(MediaType.APPLICATION_JSON).get(Item.class);
+        Player player = new Player("Samsung Galaxy S6");
+        Response postResponse = this.playerResource.request(MediaType.APPLICATION_JSON).post(Entity.json(player));
+        Player createdPlayer = this.client.target(postResponse.getLocation()).request(MediaType.APPLICATION_JSON).get(Player.class);
 
         // Create relation
-        Configuration configuration = new Configuration();
-        configuration.setItem(createdItem);
-        configuration.setProperty(p1);
+        Career career = new Career();
+        career.setPlayer(createdPlayer);
+        career.setClub(p1);
 
-        Response response = targetConfiguration.request(MediaType.APPLICATION_JSON).post(Entity.json(configuration));
+        Response response = careerResource.request(MediaType.APPLICATION_JSON).post(Entity.json(career));
         assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
         assertNotNull(response.getLocation());
 
         // Read relationship
-        List<Configuration> list = targetConfiguration.queryParam("item_id", createdItem.getId())
-                .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Configuration>>() {
+        List<Career> list = careerResource.queryParam("player_id", createdPlayer.getId())
+                .request(MediaType.APPLICATION_JSON).get(new GenericType<List<Career>>() {
                 });
 
         System.out.println(list);

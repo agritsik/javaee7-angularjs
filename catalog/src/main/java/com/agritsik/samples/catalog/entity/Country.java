@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by andrey on 7/21/15.
  */
 @Entity
-@Table(name = "categories")
-@NamedQuery(name = Category.FIND_ALL, query = "SELECT c FROM Category c")
-public class Category {
+@Table(name = "countries")
+@NamedQuery(name = Country.FIND_ALL, query = "SELECT c FROM Country c")
+public class Country {
 
-    public static final String FIND_ALL = "Category.findAll";
+    public static final String FIND_ALL = "Country.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +18,10 @@ public class Category {
 
     private String name;
 
-    public Category() {
+    public Country() {
     }
 
-    public Category(String name) {
+    public Country(String name) {
         this.name = name;
     }
 
@@ -43,7 +43,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "Country{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

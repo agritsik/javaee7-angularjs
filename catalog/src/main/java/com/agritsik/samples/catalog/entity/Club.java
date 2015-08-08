@@ -4,35 +4,33 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by andrey on 6/27/15.
+ * Created by andrey on 7/21/15.
  */
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-@Table(name = "items")
-@NamedQuery(name = Item.FIND_ALL, query = "select i from Item i")
-public class Item {
+@Table(name = "clubs")
+@NamedQuery(name = Club.FIND_ALL, query = "SELECT c FROM Club c")
+public class Club {
 
-    public static final String FIND_ALL = "Item.findAll";
+    public static final String FIND_ALL = "Club.findAll";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @ManyToOne
+    Country country;
+
     private String name;
 
-    private BigDecimal price;
-
-    public Item() {
+    public Club() {
     }
 
-    public Item(String name) {
+    public Club(String name) {
         this.name = name;
     }
 
@@ -52,20 +50,20 @@ public class Item {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "Club{" +
                 "id=" + id +
+                ", country=" + country +
                 ", name='" + name + '\'' +
-                ", price=" + price +
                 '}';
     }
 }

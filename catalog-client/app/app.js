@@ -3,64 +3,63 @@ var catalogApp = angular.module('catalogApp', [
     'catalogServices',
 
     // controllers:
-    'itemControllers',
-    'categoriesControllers',
-    'propertiesControllers'
+    'playerControllers',
+    'countriesControllers',
+    'clubsControllers'
 ]);
 
 catalogApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
 
-            // items
-            when('/items', {
-                templateUrl: 'app/items/list.html',
+            // players
+            when('/players', {
+                templateUrl: 'app/players/list.html',
                 controller: 'ListCtrl'
             }).
-            when('/items/new', {
-                templateUrl: 'app/items/create.html',
+            when('/players/new', {
+                templateUrl: 'app/players/create.html',
                 controller: 'CreateCtrl'
             }).
-            when('/items/:id', {
-                templateUrl: 'app/items/edit.html',
+            when('/players/:id', {
+                templateUrl: 'app/players/edit.html',
                 controller: 'EditCtrl'
             }).
-            when('/items/:id/configurations', {
-                templateUrl: 'app/items/configurations.html',
-                controller: 'ConfigurationCtrl'
+            when('/players/:id/careers', {
+                templateUrl: 'app/players/careers.html',
+                controller: 'CareerCtrl'
             }).
 
-            // categories
-            when('/categories', {
-                templateUrl: 'app/categories/list.html',
-                controller: 'ListCategoriesCtrl'
+            // countries
+            when('/countries', {
+                templateUrl: 'app/countries/list.html',
+                controller: 'ListCountryCtrl'
             }).
-            when('/categories/new', {
-                templateUrl: 'app/categories/create.html',
-                controller: 'CreateCategoriesCtrl'
+            when('/countries/new', {
+                templateUrl: 'app/countries/create.html',
+                controller: 'CreateCountryCtrl'
             }).
-            when('/categories/:id', {
-                templateUrl: 'app/categories/edit.html',
-                controller: 'EditCategoriesCtrl'
+            when('/countries/:id', {
+                templateUrl: 'app/countries/edit.html',
+                controller: 'EditCountryCtrl'
             }).
 
-            // properties
-
-            when('/properties/', {
-                templateUrl: 'app/properties/list.html',
-                controller: 'ListPropertiesCtrl'
+            // clubs
+            when('/clubs/', {
+                templateUrl: 'app/clubs/list.html',
+                controller: 'ListClubCtrl'
             }).
-            when('/properties/new', {
-                templateUrl: 'app/properties/create.html',
-                controller: 'CreatePropertiesCtrl'
+            when('/clubs/new', {
+                templateUrl: 'app/clubs/create.html',
+                controller: 'CreateClubCtrl'
             }).
-            when('/properties/:id', {
-                templateUrl: 'app/properties/edit.html',
-                controller: 'EditPropertiesCtrl'
+            when('/clubs/:id', {
+                templateUrl: 'app/clubs/edit.html',
+                controller: 'EditClubCtrl'
             }).
 
             otherwise({
-                redirectTo: '/items'
+                redirectTo: '/players'
             });
     }]);
 

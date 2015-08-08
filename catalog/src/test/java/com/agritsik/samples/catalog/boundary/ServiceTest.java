@@ -1,9 +1,9 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Category;
-import com.agritsik.samples.catalog.entity.Configuration;
-import com.agritsik.samples.catalog.entity.Item;
-import com.agritsik.samples.catalog.entity.Property;
+import com.agritsik.samples.catalog.entity.Country;
+import com.agritsik.samples.catalog.entity.Career;
+import com.agritsik.samples.catalog.entity.Player;
+import com.agritsik.samples.catalog.entity.Club;
 import junit.framework.TestCase;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -36,16 +36,16 @@ public class ServiceTest extends TestCase {
     }
 
     @EJB
-    ItemService itemService;
+    PlayerService playerService;
 
     @EJB
-    CategoryService categoryService;
+    CountryService countryService;
 
     @EJB
-    PropertyService propertyService;
+    ClubService clubService;
 
     @EJB
-    ConfigurationService configurationService;
+    CareerService careerService;
 
 
 
@@ -56,31 +56,31 @@ public class ServiceTest extends TestCase {
     public void testItemCRUD() throws Exception {
 
         // Create
-        Item item = new Item("Samsung Galaxy S6");
-        item.setPrice(BigDecimal.valueOf(199.99));
-        itemService.create(item);
-        assertNotNull(item.getId());
+        Player player = new Player("Samsung Galaxy S6");
+        player.setPrice(BigDecimal.valueOf(199.99));
+        playerService.create(player);
+        assertNotNull(player.getId());
 
         // Read
-        Item createdItem = itemService.find(item.getId());
-        System.out.println(createdItem);
-        assertNotNull(createdItem);
+        Player createdPlayer = playerService.find(player.getId());
+        System.out.println(createdPlayer);
+        assertNotNull(createdPlayer);
 
         // Read all
-        List<Item> items = itemService.find();
-        System.out.println(items);
-        assertEquals(1, items.size());
+        List<Player> players = playerService.find();
+        System.out.println(players);
+        assertEquals(1, players.size());
 
         // Update
         BigDecimal newPrice = BigDecimal.valueOf(299.99);
-        createdItem.setPrice(newPrice);
-        Item updatedItem = itemService.update(createdItem);
-        System.out.println(updatedItem);
-        assertEquals(newPrice, updatedItem.getPrice());
+        createdPlayer.setPrice(newPrice);
+        Player updatedPlayer = playerService.update(createdPlayer);
+        System.out.println(updatedPlayer);
+        assertEquals(newPrice, updatedPlayer.getPrice());
 
         // Delete
-        itemService.delete(updatedItem.getId());
-        assertNull(itemService.find(updatedItem.getId()));
+        playerService.delete(updatedPlayer.getId());
+        assertNull(playerService.find(updatedPlayer.getId()));
 
     }
 
@@ -89,30 +89,30 @@ public class ServiceTest extends TestCase {
     public void testCategoryCRUD() throws Exception {
 
         // Create
-        Category category = new Category("Type");
-        categoryService.create(category);
-        assertNotNull(category.getId());
+        Country country = new Country("Type");
+        countryService.create(country);
+        assertNotNull(country.getId());
 
         // Read
-        Category createdCategory = categoryService.find(category.getId());
-        System.out.println(createdCategory);
-        assertNotNull(createdCategory);
+        Country createdCountry = countryService.find(country.getId());
+        System.out.println(createdCountry);
+        assertNotNull(createdCountry);
 
         // Read all
-        List<Category> categories = categoryService.find();
-        System.out.println(categories);
-        assertEquals(1, categories.size());
+        List<Country> countries = countryService.find();
+        System.out.println(countries);
+        assertEquals(1, countries.size());
 
         // Update
         String updatedName = "Edited Type";
-        createdCategory.setName(updatedName);
-        Category updatedCategory = categoryService.update(createdCategory);
-        System.out.println(updatedCategory);
-        assertEquals(updatedName, updatedCategory.getName());
+        createdCountry.setName(updatedName);
+        Country updatedCountry = countryService.update(createdCountry);
+        System.out.println(updatedCountry);
+        assertEquals(updatedName, updatedCountry.getName());
 
         // Delete
-        categoryService.delete(updatedCategory.getId());
-        assertNull(categoryService.find(updatedCategory.getId()));
+        countryService.delete(updatedCountry.getId());
+        assertNull(countryService.find(updatedCountry.getId()));
 
 
     }
@@ -122,33 +122,33 @@ public class ServiceTest extends TestCase {
     public void testPropertyCRUD() throws Exception {
 
         // Create Parent todo: skipped for now
-        Category category = new Category();
-        category.setName("brand");
-        categoryService.create(category);
+        Country country = new Country();
+        country.setName("brand");
+        countryService.create(country);
 
         // Create
-        Property property = new Property("Nokia");
-        propertyService.create(property);
-        assertNotNull(property.getId());
+        Club club = new Club("Nokia");
+        clubService.create(club);
+        assertNotNull(club.getId());
 
         // Read
-        Property createdProperty = propertyService.find(property.getId());
-        System.out.println(createdProperty);
-        assertNotNull(createdProperty);
+        Club createdClub = clubService.find(club.getId());
+        System.out.println(createdClub);
+        assertNotNull(createdClub);
 
         // Read all
-        List<Property> properties0 = propertyService.find();
+        List<Club> properties0 = clubService.find();
         assertEquals(1, properties0.size());
 
         // Update
         String updatedName = "Nokia 2";
-        createdProperty.setName(updatedName);
-        Property updatedProperty = propertyService.update(createdProperty);
-        assertEquals(updatedName, updatedProperty.getName());
+        createdClub.setName(updatedName);
+        Club updatedClub = clubService.update(createdClub);
+        assertEquals(updatedName, updatedClub.getName());
 
         // Delete
-        propertyService.delete(updatedProperty.getId());
-        assertEquals(0, propertyService.find().size());
+        clubService.delete(updatedClub.getId());
+        assertEquals(0, clubService.find().size());
 
     }
 
@@ -158,40 +158,40 @@ public class ServiceTest extends TestCase {
     @InSequence(4)
     public void testConfigurationCRUD() throws Exception {
         // create category
-        Category category = new Category("RAM");
-        categoryService.create(category);
+        Country country = new Country("RAM");
+        countryService.create(country);
 
         // create properties
-        Property property1 = new Property("2Gb");
-        Property property2 = new Property("4Gb");
-        Property property3 = new Property("8Gb");
-        Property property4 = new Property("16Gb");
+        Club club1 = new Club("2Gb");
+        Club club2 = new Club("4Gb");
+        Club club3 = new Club("8Gb");
+        Club club4 = new Club("16Gb");
 //        propertyService.create(property1, category.getId());
 //        propertyService.create(property2, category.getId());
 //        propertyService.create(property3, category.getId());
 //        propertyService.create(property4, category.getId());
 
-        // create item
-        Item item = new Item("Apple iPhone 5");
-        itemService.create(item);
+        // create
+        Player player = new Player("Apple iPhone 5");
+        playerService.create(player);
 
         // create relationship
-        Configuration configuration1 = new Configuration(item, property1);
-        configurationService.create(configuration1);
-        assertNotNull(configuration1.getId());
+        Career career1 = new Career(player, club1);
+        careerService.create(career1);
+        assertNotNull(career1.getId());
 
-        Configuration configuration2 = new Configuration(item, property2);
-        configurationService.create(configuration2);
-        assertNotNull(configuration2.getId());
+        Career career2 = new Career(player, club2);
+        careerService.create(career2);
+        assertNotNull(career2.getId());
 
-        List<Configuration> items1 = configurationService.findByItemId(item.getId());
-        System.out.println(items1);
-        assertEquals(2, items1.size());
+        List<Career> player1 = careerService.findByPlayerId(player.getId());
+        System.out.println(player1);
+        assertEquals(2, player1.size());
 
-        configurationService.delete(configuration2.getId());
+        careerService.delete(career2.getId());
 
-        List<Configuration> items2 = configurationService.findByItemId(item.getId());
-        assertEquals(1, items2.size());
+        List<Career> player2 = careerService.findByPlayerId(player.getId());
+        assertEquals(1, player2.size());
 
     }
 

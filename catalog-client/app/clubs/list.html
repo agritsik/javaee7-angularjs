@@ -1,20 +1,20 @@
 <h3>List</h3>
 
-<a href="#properties/new">add new</a>
+<a href="#/clubs/new">add new</a>
 
 <table class="table">
     <tr>
         <th>id</th>
         <th>Name</th>
-        <th>Category</th>
+        <th>Country</th>
         <th>Actions</th>
     </tr>
     <tr ng-repeat="row in rows">
         <td>{{row.id}}</td>
         <td>{{row.name}}</td>
-        <td>{{row.category.name}}</td>
+        <td>{{row.country.name}}</td>
         <td>
-            <a href="#properties/{{row.id}}">edit</a>
+            <a href="`#/clubs/{{row.id}}">edit</a>
             <a href="" ng-click="delete(row)">delete</a>
         </td>
     </tr>

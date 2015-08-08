@@ -1,0 +1,17 @@
+<h3>List</h3>
+
+<a class="" href="#/players/new">add new</a>
+
+<table class="table">
+    <tr ng-repeat="row in rows">
+        <td>{{row.name}}</td>
+        <td>{{row.price}}</td>
+        <td>
+            <a href="#/players/{{row.id}}/careers">Senior career</a>
+        </td>
+        <td>
+            <a href="#/players/{{row.id}}">edit</a>
+            <a href="#" ng-click="delete(row)">delete</a>
+        </td>
+    </tr>
+</table>

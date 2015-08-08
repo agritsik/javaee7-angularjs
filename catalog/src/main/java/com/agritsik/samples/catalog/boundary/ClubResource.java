@@ -1,6 +1,6 @@
 package com.agritsik.samples.catalog.boundary;
 
-import com.agritsik.samples.catalog.entity.Property;
+import com.agritsik.samples.catalog.entity.Club;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -13,45 +13,45 @@ import java.util.List;
 /**
  * Created by andrey on 7/29/15.
  */
-@Path("/properties")
-public class PropertyResource {
+@Path("/clubs")
+public class ClubResource {
 
     @Context
     UriInfo uriInfo;
 
     @EJB
-    PropertyService propertyService;
+    ClubService clubService;
 
     @POST
-    public Response create(Property property){
-        propertyService.create(property);
+    public Response create(Club club){
+        clubService.create(club);
 
-        URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(property.getId())).build();
+        URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(club.getId())).build();
         return Response.created(uri).build();
     }
 
     @GET
     @Path("{id}")
-    public Property find(@PathParam("id") int id){
-        return propertyService.find(id);
+    public Club find(@PathParam("id") int id){
+        return clubService.find(id);
     }
 
     @GET
-    public List<Property> find(){
-        return propertyService.find();
+    public List<Club> find(){
+        return clubService.find();
     }
 
     @PUT
     @Path("{id}")
-    public Response update(@PathParam("id") int id, Property property){
-        propertyService.update(property);
+    public Response update(@PathParam("id") int id, Club club){
+        clubService.update(club);
         return Response.noContent().build();
     }
 
     @DELETE
     @Path("{id}")
     public Response delete(@PathParam("id") int id){
-        propertyService.delete(id);
+        clubService.delete(id);
         return Response.noContent().build();
     }
 
