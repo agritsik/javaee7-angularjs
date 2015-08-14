@@ -18,3 +18,5 @@ insert into clubs set id=6, country_id=3, name='Juventus F.C.';
 insert into clubs set id=7, country_id=3, name='Juventus F.C.';
 insert into clubs set id=8, country_id=3, name='A.C. Milan';
 insert into clubs set id=9, country_id=3, name='F.C. Internazionale Milano';
+
+update SEQUENCE set SEQ_COUNT=100;
