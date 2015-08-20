@@ -48,12 +48,9 @@ public class ServiceTest extends TestCase {
     CareerService careerService;
 
 
-
-
-
     @Test
     @InSequence(1)
-    public void testItemCRUD() throws Exception {
+    public void testPlayerCRUD() throws Exception {
 
         // Create
         Player player = new Player("Samsung Galaxy S6");
@@ -86,7 +83,7 @@ public class ServiceTest extends TestCase {
 
     @Test
     @InSequence(2)
-    public void testCategoryCRUD() throws Exception {
+    public void testCountryCRUD() throws Exception {
 
         // Create
         Country country = new Country("Type");
@@ -119,15 +116,16 @@ public class ServiceTest extends TestCase {
 
     @Test
     @InSequence(3)
-    public void testPropertyCRUD() throws Exception {
+    public void testClubCRUD() throws Exception {
 
-        // Create Parent todo: skipped for now
+        // Create Parent
         Country country = new Country();
         country.setName("brand");
         countryService.create(country);
 
         // Create
         Club club = new Club("Nokia");
+        club.setCountry(country);
         clubService.create(club);
         assertNotNull(club.getId());
 
@@ -153,9 +151,39 @@ public class ServiceTest extends TestCase {
     }
 
 
-    @Ignore
+
     @Test
     @InSequence(4)
+    public void testClubFetch() throws Exception {
+
+        // create 10 countries and 10 clubs
+        for (int i = 0; i < 10; i++) {
+
+            Country country1 = new Country();
+            country1.setName("country"+i);
+            countryService.create(country1);
+
+            Club club1 = new Club("club"+1);
+            club1.setCountry(country1);
+            clubService.create(club1);
+        }
+
+        System.out.println("OOOPS");
+        List<Club> properties0 = clubService.find();
+        assertEquals(10, properties0.size());
+
+        for (Club club1 : properties0) {
+            System.out.println(club1);
+        }
+
+    }
+
+
+
+
+    @Ignore
+    @Test
+    @InSequence(5)
     public void testConfigurationCRUD() throws Exception {
         // create category
         Country country = new Country("RAM");

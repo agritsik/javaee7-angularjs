@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 @Table(name = "clubs")
-@NamedQuery(name = Club.FIND_ALL, query = "SELECT c FROM Club c")
+@NamedQuery(name = Club.FIND_ALL, query = "SELECT c FROM Club c left join fetch c.country")
 public class Club {
 
     public static final String FIND_ALL = "Club.findAll";
