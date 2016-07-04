@@ -1,0 +1,19 @@
+{
+  "name": "catalog-client",
+  "version": "1.0.0",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-verbose-reporter": "0.0.3"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

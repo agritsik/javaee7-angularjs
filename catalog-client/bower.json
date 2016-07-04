@@ -17,6 +17,9 @@
     "angular": "~1.4.1",
     "angular-resource": "~1.4.1",
     "angular-route": "~1.4.1",
+    "angular-mocks": "~1.5.5",
     "bootstrap": "~3.3.5"
-  }
+  },
+  "description": "",
+  "main": ""
 }
